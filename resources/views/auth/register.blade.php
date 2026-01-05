@@ -301,7 +301,7 @@
             </div>
             
             <div class="form-group">
-                <label for="nom_domaine" class="form-label">Nom du domaine (Optionnel)</label>
+                <label for="nom_domaine" class="form-label">Nom du domaine</label>
                 <input type="text" id="nom_domaine" name="nom_domaine" class="form-input" value="{{ old('nom_domaine') }}">
                 @error('nom_domaine')
                     <div class="error">{{ $message }}</div>
@@ -309,7 +309,7 @@
             </div>
             
             <div class="form-group">
-                <label for="description_domaine" class="form-label">Description du domaine (Optionnel)</label>
+                <label for="description_domaine" class="form-label">Description du domaine </label>
                 <textarea id="description_domaine" name="description_domaine" class="form-textarea" rows="3">{{ old('description_domaine') }}</textarea>
                 @error('description_domaine')
                     <div class="error">{{ $message }}</div>

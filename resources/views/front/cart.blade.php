@@ -52,6 +52,7 @@
                                             <div class="product-info">
                                                 <h5>{{ $item->produit->nom }}</h5>
                                                 <p>{{ $item->produit->description }}</p>
+                                                
                                             </div>
                                         </div>
                                     </td>

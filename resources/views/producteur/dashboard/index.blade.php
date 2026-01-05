@@ -6,7 +6,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <h2><i class="fas fa-seedling me-2"></i>Bienvenue Mr/Mlle   {{ $producteur->prenom ?? $producteur->nom ?? 'Producteur' }} dans votre Tableau de bord</h2>
+            <h2><i class="fas fa-seedling me-2"></i>Bienvenue {{ $producteur->prenom ?? $producteur->nom ?? 'Producteur' }} dans votre Tableau de bord</h2>
             <p class="text-muted">Gérez vos produits agricoles locaux</p>
         </div>
     </div>

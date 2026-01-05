@@ -28,16 +28,22 @@
             <div class="container">
                 <div class="logo"><img src="{{ asset('assets/images/logo.png') }}" alt=""></div>
                 <div class="head-search">
-                    <form action="">
-                        <input type="text" placeholder="Recherche">
-                        <i class="fa-solid fa-magnifying-glass"></i>
+                    <form action="{{ route('search') }}" method="GET">
+                        <input type="text" name="q" placeholder="Recherche" value="{{ request()->input('q') }}">
+                        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </form>
                 </div>
                 <div class="header-icons">
                     <ul>
                         <li><a href="{{ route('login') }}"><i class="fa-solid fa-user"></i></a></li>
-                        <li><a href="{{ route('cart') }}"><i class="fa-solid fa-heart"></i></a></li>
-                        <li><a href="{{ route('checkout') }}"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                        <li><a href="{{ route('favorite') }}">
+                            <i class="fa-solid fa-heart"></i>
+                            <span class="badge badge-danger" id="favorite-count" 
+                                  style="display: {{ count(session()->get('favorites', [])) == 0 ? 'none' : 'inline-block' }};">
+                                {{ count(session()->get('favorites', [])) > 0 ? count(session()->get('favorites', [])) : '' }}
+                            </span>
+                        </a></li>
+                        <li><a href="{{ route('cart') }}"><i class="fa-solid fa-cart-shopping"></i></a></li>
                     </ul>
                 </div>
             </div>

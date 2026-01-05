@@ -1,164 +1,130 @@
 @extends('layouts.front')
 
 @section('contentPage')
+<!-- Search Results Section -->
+<section class="search-results-sec py-5">
+    <div class="container">
+        <h2 class="title text-center mb-5">Résultats de recherche pour "{{ $query }}"</h2>
+        
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Accueil</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Recherche</li>
+            </ol>
+        </nav>
 
-
-  
-    <!-- Offer Banner -->
-    <section class="offer-banner">
-        <div class="container">
-            <h1>Offres Spéciales</h1>
-            <p>Découvrez nos meilleures offres et promotions du moment</p>
-        </div>
-    </section>
-
-    <!-- Offer Categories -->
-    <section class="py-5">
-        <div class="container">
-            <div class="offer-category">
-                <button class="category-btn active">Toutes les offres</button>
-                <button class="category-btn">Réductions</button>
-                <button class="category-btn">Produits gratuits</button>
-                <button class="category-btn">Offres limitées</button>
-                <button class="category-btn">Week-end</button>
-            </div>
-
-            <h2 class="section-title">Offres du Moment</h2>
-
+        @if($products->count() > 0)
+            <p class="text-center mb-4">{{ $products->total() }} produit(s) trouvé(s) pour "{{ $query }}"</p>
+            
             <div class="row">
-                @if(isset($produits) && $produits->count() > 0)
-                    @foreach($produits as $produit)
-                <div class="col-lg-4 col-md-6">
-                    <div class="offer-card">
-                        <div class="pr-icons">
-                            <ul>
-                                <li><a href=""><i class="fa-solid fa-user"></i></a></li>
-                                <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="{{ $produit->id }}">
-                                    <i class="fa-solid fa-heart {{ in_array($produit->id, session()->get('favorites', [])) ? 'active' : '' }}" 
+                @foreach($products as $produit)
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="{{ asset($produit->image) }}" alt="{{ $produit->nom }}" class="img-fluid">
+                            <div class="product-overlay">
+                                <a href="javascript:void(0)" class="btn btn-light add-to-fav" data-product-id="{{ $produit->id }}">
+                                    <i class="fas fa-heart {{ in_array($produit->id, session()->get('favorites', [])) ? 'active' : '' }}" 
                                        @if(in_array($produit->id, session()->get('favorites', []))) style="color: #e74c3c;" @endif></i>
-                                </a></li>
-                                <li><a href="javascript:void(0)" class="view-product" data-product-id="{{ $produit->id }}">
-                                    <i class="fa-solid fa-eye"></i>
-                                </a></li>
-                            </ul>
-                        </div>
-                        <span class="offer-badge sale">-{{ $produit->reduction }}%</span>
-                        <div class="offer-img">
-                            <img src="{{ asset($produit->image) }}" alt="{{ $produit->nom }}">
-                        </div>
-                        <div class="offer-content">
-                            <h3>{{ $produit->nom }}</h3>
-
-                            <div class="offer-price">
-                                @php
-                                    $prixReduit = $produit->prix * (1 - $produit->reduction / 100);
-                                @endphp
-                                <span class="current-price">{{ number_format($prixReduit, 0, '', '') }} Fcfa</span>
-                                <span class="old-price">{{ $produit->prix }} Fcfa</span>
-                                <span class="discount-percent">-{{ $produit->reduction }}%</span>
-                            </div>
-                            <div class="offer-timer">
-                                <div class="timer-title">Offre valable jusqu'à :</div>
-                                <div class="timer-flex">
-                                    <div class="timer-box">
-                                        <div class="timer-value">02</div>
-                                        <div class="timer-label">JOURS</div>
-                                    </div>
-                                    <div class="timer-box">
-                                        <div class="timer-value">15</div>
-                                        <div class="timer-label">HEURES</div>
-                                    </div>
-                                    <div class="timer-box">
-                                        <div class="timer-value">30</div>
-                                        <div class="timer-label">MIN</div>
-                                    </div>
-                                    <div class="timer-box">
-                                        <div class="timer-value">45</div>
-                                        <div class="timer-label">SEC</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="cart-btn">
-                                <form method="POST" action="{{ route('cart.add') }}" class="d-inline">
-                                    @csrf
-                                    <input type="hidden" name="produit_id" value="{{ $produit->id }}">
-                                    <button type="submit" class="cta-button">
-                                        Ajouter au panier
-                                    </button>
-                                </form>
+                                </a>
+                                <a href="javascript:void(0)" class="btn btn-light view-product" data-product-id="{{ $produit->id }}">
+                                    <i class="fas fa-eye"></i>
+                                </a>
                             </div>
                         </div>
-                    </div>
-                </div>
-                    @endforeach
-                @else
-                <div class="col-12">
-                    <p class="text-center">Aucun produit disponible actuellement.</p>
-                </div>
-                @endif
-            </div>
-        </div>
-    </section>
+                        <div class="product-info">
+                            <h5 class="product-title">{{ $produit->nom }}</h5>
 
-    <!-- Weekend Specials -->
-    <section class="weekend-sec py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="weekend-main weekend-bg-3">
-                        <div class="weekend-text">
-                            <h5>Réduction du week-end 40%</h5>
-                            <h3>Mélange surprise de cacahuètes et pois chiches</h3>
-                            <div class="nav-btn mt-4"><a href="{{ route('checkout') }}">Acheter maintenant</a></div>
+                            <p class="product-price">{{ $produit->prix }} Fcfa</p>
+                            <p class="product-stock">
+                                @if($produit->stock_disponible > 0)
+                                    <span class="text-success">En stock ({{ $produit->stock_disponible }})</span>
+                                @else
+                                    <span class="text-danger">Épuisé</span>
+                                @endif
+                            </p>
+                            <a href="{{ route('cart.add', ['id' => $produit->id]) }}" class="btn btn-success btn-sm">Ajouter au panier</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="weekend-main weekend-bg-2">
-                        <div class="weekend-text">
-                            <h5>Réduction du week-end 40%</h5>
-                            <h3>Cacahuètes salées</h3>
-                            <div class="nav-btn mt-4"><a href="{{ route('checkout') }}">Acheter maintenant</a></div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
-        </div>
-    </section>
-
-    <!-- Featured Section -->
-    <section class="featured-sec py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="featured-flex">
-                        <i class="fa-solid fa-box"></i>
-                        <p>Des produits frais tous les jours</p>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="featured-flex">
-                        <i class="fa-solid fa-truck"></i>
-                        <p>Livraison gratuite</p>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="featured-flex">
-                        <i class="fa-solid fa-percent"></i>
-                        <p>Meilleur prix du marché</p>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="featured-flex">
-                        <i class="fa-solid fa-box"></i>
-                        <p>Livraison en toute sécurité</p>
-                    </div>
-                </div>
+            
+            <!-- Pagination -->
+            <div class="d-flex justify-content-center">
+                {{ $products->links() }}
             </div>
-        </div>
-    </section>
+        @else
+            <div class="empty-search text-center py-5">
+                <i class="fas fa-search text-muted fa-3x mb-3"></i>
+                <h4>Aucun produit trouvé</h4>
+                <p>Aucun produit ne correspond à votre recherche "{{ $query }}"</p>
+                <a href="{{ route('boutique') }}" class="btn btn-success">Voir tous les produits</a>
+            </div>
+        @endif
+    </div>
+</section>
 
- 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle favorite toggle
+    const favoriteButtons = document.querySelectorAll('.add-to-fav');
+    
+    favoriteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const productId = this.getAttribute('data-product-id');
+            const icon = this.querySelector('i');
+            
+            fetch('/favorite/toggle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    product_id: productId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update icon based on action
+                    if (data.action === 'added') {
+                        icon.classList.add('active');
+                        icon.style.color = '#e74c3c';
+                        this.setAttribute('title', 'Retirer des favoris');
+                    } else {
+                        icon.classList.remove('active');
+                        icon.style.color = '';
+                        this.setAttribute('title', 'Ajouter aux favoris');
+                    }
+                    
+                    // Update favorite count in navbar
+                    const favoriteBadge = document.getElementById('favorite-count');
+                    favoriteBadge.textContent = data.count;
+                    
+                    // Show/hide badge based on count
+                    if (data.count > 0) {
+                        favoriteBadge.classList.remove('hidden');
+                    } else {
+                        favoriteBadge.classList.add('hidden');
+                    }
+                } else {
+                    alert(data.message || 'Une erreur est survenue');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Une erreur est survenue lors de la mise à jour des favoris');
+            });
+        });
+    });
+});
+</script>
+
 <script>
 // Product detail modal functionality
 document.addEventListener('DOMContentLoaded', function() {

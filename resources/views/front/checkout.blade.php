@@ -136,6 +136,7 @@
                                     <div>
                                         <h6>{{ $item->produit->nom }}</h6>
                                         <p>{{ $item->quantite ?? 1 }} x {{ $item->produit->prix }} Fcfa</p>
+
                                     </div>
                                 </div>
                                 <span>{{ ($item->produit->prix * ($item->quantite ?? 1)) }} Fcfa</span>

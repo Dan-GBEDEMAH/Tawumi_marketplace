@@ -75,6 +75,6 @@
     </div>
 
     <div class="copyrights">
-        <p class="m-0">Tous droits sont réservés | TawumiConfirm | 2025 .</p>
+        <p class="m-0">Tous droits sont réservés | TawumiConfirm | 2026 .</p>
     </div>
 </footer>

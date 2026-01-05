@@ -43,11 +43,35 @@
             font-size: 12px;
             color: #666;
         }
+        .btn-download {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-top: 15px;
+            border: 1px solid #218838;
+            font-size: 15px;
+            text-align: center;
+            min-width: 200px;
+        }
+        .btn-download:hover {
+            background-color: #218838;
+            color: white;
+        }
+        .btn-download i {
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <h1><i class="fas fa-file-invoice"></i> FACTURE</h1>
+        <a href="{{ route('invoice.download', $order->id) }}" class="btn-download">
+            <i class="fas fa-download"></i> Télécharger la facture
+        </a>
     </div>
     
     <div style="display: flex; justify-content: space-between;">
@@ -89,7 +113,11 @@
         <tbody>
             @foreach($order->produits as $produit)
             <tr>
-                <td>{{ $produit->nom }}</td>
+                <td>
+                    {{ $produit->nom }}<br>
+                    <small style="color: #666;">Producteur: {{ $produit->producteur ? $produit->producteur->prenom . ' ' . $produit->producteur->nom : 'Producteur inconnu' }}</small><br>
+                    <small style="color: #666;">Adresse: {{ $produit->producteur ? $produit->producteur->addresse : 'Adresse inconnue' }}</small>
+                </td>
                 <td>{{ $produit->pivot->quantite }}</td>
                 <td>{{ $produit->pivot->prix_unitaire }} Fcfa</td>
                 <td>{{ $produit->pivot->prix_unitaire * $produit->pivot->quantite }} Fcfa</td>
@@ -117,7 +145,7 @@
             <div class="payment-info" style="width: 48%;">
                 <h4>Informations de paiement</h4>
                 <p><strong>Mode de paiement: </strong>
-                @switch($order->paiements->first()->mode_paiement)
+                @switch($order->paiements->first()->methode_TMoney_Flooz)
                     @case('cash')
                         Paiement à la livraison
                         @break
@@ -128,7 +156,7 @@
                         Paiement mobile (Flooz, Mixx By Yas)
                         @break
                     @default
-                        {{ $order->paiements->first()->mode_paiement }}
+                        {{ $order->paiements->first()->methode_TMoney_Flooz }}
                 @endswitch
                 </p>
             </div>

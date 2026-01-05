@@ -112,10 +112,10 @@
                     <!-- Search Widget -->
                     <div class="sidebar-widget">
                         <h4>Rechercher</h4>
-                        <form>
+                        <form action="{{ route('search') }}" method="GET">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Rechercher...">
-                                <button class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                <input type="text" class="form-control" name="query" placeholder="Rechercher...">
+                                <button class="btn btn-success" type="submit"><i class="fa fa-search"></i></button>
                             </div>
                         </form>
                     </div>
@@ -124,11 +124,11 @@
                     <div class="sidebar-widget">
                         <h4>Catégories</h4>
                         <ul class="list-unstyled">
-                            <li class="mb-2"><a href="#" class="text-decoration-none text-dark">Nutrition <span class="float-end">(12)</span></a></li>
-                            <li class="mb-2"><a href="#" class="text-decoration-none text-dark">Recettes <span class="float-end">(8)</span></a></li>
-                            <li class="mb-2"><a href="#" class="text-decoration-none text-dark">Saison <span class="float-end">(5)</span></a></li>
-                            <li class="mb-2"><a href="#" class="text-decoration-none text-dark">Bio <span class="float-end">(7)</span></a></li>
-                            <li class="mb-2"><a href="#" class="text-decoration-none text-dark">Conseils <span class="float-end">(9)</span></a></li>
+                            <li class="mb-2"><a href="{{ route('search') }}?category=nutrition" class="text-decoration-none text-dark">Nutrition <span class="float-end">(12)</span></a></li>
+                            <li class="mb-2"><a href="{{ route('search') }}?category=recettes" class="text-decoration-none text-dark">Recettes <span class="float-end">(8)</span></a></li>
+                            <li class="mb-2"><a href="{{ route('search') }}?category=saison" class="text-decoration-none text-dark">Saison <span class="float-end">(5)</span></a></li>
+                            <li class="mb-2"><a href="{{ route('search') }}?category=bio" class="text-decoration-none text-dark">Bio <span class="float-end">(7)</span></a></li>
+                            <li class="mb-2"><a href="{{ route('search') }}?category=conseils" class="text-decoration-none text-dark">Conseils <span class="float-end">(9)</span></a></li>
                         </ul>
                     </div>
 
@@ -137,7 +137,7 @@
                         <h4>Articles Populaires</h4>
                         <div class="popular-post">
                             <div class="popular-post-img">
-                                <img src="{{ asset('assets/images/blog-1.jpg') }}" alt="">
+                                <img src="{{ asset('assets/images/legumes_vert.jpg') }}" alt="">
                             </div>
                             <div class="popular-post-content">
                                 <h5>Les bienfaits des légumes verts</h5>
@@ -146,20 +146,20 @@
                         </div>
                         <div class="popular-post">
                             <div class="popular-post-img">
-                                <img src="{{ asset('assets/images/blog-2.jpg') }}" alt="">
+                                <img src="{{ asset('assets/images/reccette_togolaise.jpg') }}" alt="">
                             </div>
                             <div class="popular-post-content">
                                 <h5>5 recettes faciles avec des ingrédients locaux</h5>
-                                <div class="post-date">10 Juin 2025</div>
+                                <div class="post-date">10 Juin 2026</div>
                             </div>
                         </div>
                         <div class="popular-post">
                             <div class="popular-post-img">
-                                <img src="{{ asset('assets/images/blog-3.jpg') }}" alt="">
+                                <img src="{{ asset('assets/images/saison.jpg') }}" alt="">
                             </div>
                             <div class="popular-post-content">
                                 <h5>Les fruits et légumes de saison en été</h5>
-                                <div class="post-date">5 Juin 2025</div>
+                                <div class="post-date">5 Juin 2026</div>
                             </div>
                         </div>
                     </div>
@@ -168,15 +168,15 @@
                     <div class="sidebar-widget">
                         <h4>Mots-clés</h4>
                         <div class="tag-cloud">
-                            <a href="#">Nutrition</a>
-                            <a href="#">Bio</a>
-                            <a href="#">Recettes</a>
-                            <a href="#">Saison</a>
-                            <a href="#">Légumes</a>
-                            <a href="#">Fruits</a>
-                            <a href="#">Santé</a>
-                            <a href="#">Bien-être</a>
-                            <a href="#">Conseils</a>
+                            <a href="{{ route('search') }}?tag=nutrition">Nutrition</a>
+                            <a href="{{ route('search') }}?tag=bio">Bio</a>
+                            <a href="{{ route('search') }}?tag=recettes">Recettes</a>
+                            <a href="{{ route('search') }}?tag=saison">Saison</a>
+                            <a href="{{ route('search') }}?tag=legumes">Légumes</a>
+                            <a href="{{ route('search') }}?tag=fruits">Fruits</a>
+                            <a href="{{ route('search') }}?tag=sante">Santé</a>
+                            <a href="{{ route('search') }}?tag=bien-etre">Bien-être</a>
+                            <a href="{{ route('search') }}?tag=conseils">Conseils</a>
                         </div>
                     </div>
                 </div>
@@ -184,5 +184,16 @@
         </div>
     </section>
 
+
+<script>
+    function toggleContent(contentId) {
+        const content = document.getElementById(contentId);
+        if (content.style.display === 'none') {
+            content.style.display = 'block';
+        } else {
+            content.style.display = 'none';
+        }
+    }
+</script>
 
 @endsection

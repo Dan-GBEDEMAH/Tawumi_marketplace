@@ -148,18 +148,18 @@
                         </div>
                     </div>
                     
-                    <div class="action-buttons">
-                        <a href="{{ route('home') }}" class="btn btn-primary me-2">
-                            <i class="fas fa-home me-1"></i>Retour à l'accueil
+                    <div class="action-buttons d-flex flex-wrap gap-2 justify-content-center">
+                        <a href="{{ route('invoice.download', $order->id) }}" class="btn btn-success">
+                            <i class="fas fa-file-invoice"></i> Télécharger la facture
                         </a>
-                        <a href="{{ route('boutique') }}" class="btn btn-outline-primary me-2">
-                            <i class="fas fa-shopping-cart me-1"></i>Continuer les achats
+                        <a href="{{ route('home') }}" class="btn btn-primary">
+                            <i class="fas fa-home"></i> Retour à l'accueil
                         </a>
-                        <a href="{{ route('user.orders') }}" class="btn btn-success me-2">
-                            <i class="fas fa-eye me-1"></i>Voir mes commandes
+                        <a href="{{ route('boutique') }}" class="btn btn-outline-primary">
+                            <i class="fas fa-shopping-cart"></i> Continuer les achats
                         </a>
-                        <a href="{{ route('invoice.download', $order->id) }}" class="btn btn-outline-primary btn-sm">
-                            <i class="fas fa-file-invoice me-1"></i>Télécharger la facture
+                        <a href="{{ route('user.orders') }}" class="btn btn-info">
+                            <i class="fas fa-eye"></i> Voir mes commandes
                         </a>
                     </div>
                 </div>

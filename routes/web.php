@@ -30,6 +30,18 @@ Route::post('/checkout', [CartController::class, 'processCheckout'])->name('chec
 Route::get('/checkout/success/{order_id}', [CartController::class, 'checkoutSuccess'])->name('checkout.success');
 Route::get('/my-orders', [CartController::class, 'userOrders'])->name('user.orders');
 
+// Product detail routes
+Route::get('/product/{id}', [App\Http\Controllers\Front\ProductDetailController::class, 'show'])->name('product.detail');
+Route::post('/product/detail', [App\Http\Controllers\Front\ProductDetailController::class, 'getDetail'])->name('product.detail.ajax');
+
+// Search routes
+Route::get('/search', [App\Http\Controllers\Front\SearchController::class, 'search'])->name('search');
+
+// Favorite routes
+Route::get('/favorite', [App\Http\Controllers\Front\FavoriteController::class, 'index'])->name('favorite');
+Route::post('/favorite/toggle', [App\Http\Controllers\Front\FavoriteController::class, 'toggle'])->name('favorite.toggle');
+Route::post('/favorite/clear', [App\Http\Controllers\Front\FavoriteController::class, 'clear'])->name('favorite.clear');
+
 // Invoice routes
 Route::get('/invoice/{order_id}', [InvoiceController::class, 'show'])->name('invoice.show');
 Route::get('/invoice/{order_id}/download', [InvoiceController::class, 'download'])->name('invoice.download');
@@ -85,19 +97,19 @@ Route::get('/register', [AuthController::class, 'showRegister'])->name('register
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Dashboard routes (protected)
-Route::get('/admin/dashboard', function () {
-    return '<h1>Admin Dashboard</h1><p>Bienvenue sur le tableau de bord admin.</p><a href="/">Retour à l\'accueil</a>';
-})->name('admin.dashboard')->middleware('auth');
+// Route::get('/admin/dashboard', function () {
+//     return '<h1>Admin Dashboard</h1><p>Bienvenue sur le tableau de bord admin.</p><a href="/">Retour à l\'accueil</a>';
+// })->name('admin.dashboard')->middleware('auth');
 
-Route::get('/producteur/dashboard', function () {
-    return '<h1>Producteur Dashboard</h1><p>Bienvenue sur le tableau de bord producteur.</p><a href="/">Retour à l\'accueil</a>';
-})->name('producteur.dashboard')->middleware('auth');
+// Route::get('/producteur/dashboard', function () {
+//     return '<h1>Producteur Dashboard</h1><p>Bienvenue sur le tableau de bord producteur.</p><a href="/">Retour à l\'accueil</a>';
+// })->name('producteur.dashboard')->middleware('auth');
 
 // Route de test pour les images
-Route::get('/test-image', function() {
-    $products = \App\Models\Produit::all();
-    return view('test-image', compact('products'));
-});
+// Route::get('/test-image', function() {
+//     $products = \App\Models\Produit::all();
+//     return view('test-image', compact('products'));
+// });

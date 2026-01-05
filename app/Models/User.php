@@ -27,6 +27,7 @@ class User extends Authenticatable
         'description_domaine',
         'telephone',
         'role',
+        'sexe',
     ];
 
     /**

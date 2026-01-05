@@ -68,6 +68,13 @@ class CartController extends Controller
 
         // Vérifier si le produit est disponible (stock > 0)
         if ($produit->stock_disponible <= 0) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Ce produit n\'est plus disponible en stock.',
+                    'cart_count' => $this->getCartCount()
+                ]);
+            }
             return redirect()->back()->with('error', 'Ce produit n\'est plus disponible en stock.');
         }
 
@@ -79,6 +86,13 @@ class CartController extends Controller
                 ->first();
 
             if ($existingItem) {
+                if ($request->expectsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Ce produit est déjà dans votre panier.',
+                        'cart_count' => $this->getCartCount()
+                    ]);
+                }
                 return redirect()->back()->with('error', 'Ce produit est déjà dans votre panier.');
             }
 
@@ -103,6 +117,13 @@ class CartController extends Controller
             }
             
             if ($productExists) {
+                if ($request->expectsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Ce produit est déjà dans votre panier.',
+                        'cart_count' => $this->getCartCount()
+                    ]);
+                }
                 return redirect()->back()->with('error', 'Ce produit est déjà dans votre panier.');
             }
             
@@ -114,7 +135,38 @@ class CartController extends Controller
             session()->put('cart', $cart);
         }
 
+        // Calculate cart count
+        $cartCount = 0;
+        if (Auth::check()) {
+            $cartCount = Panier::where('id_user_fk', Auth::id())
+                ->where('statut_actif_convert', 1)
+                ->count();
+        } else {
+            $sessionCart = session()->get('cart', []);
+            $cartCount = count($sessionCart);
+        }
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Produit ajouté au panier avec succès!',
+                'cart_count' => $cartCount
+            ]);
+        }
+
         return redirect()->back()->with('success', 'Produit ajouté au panier avec succès!');
+    }
+    
+    private function getCartCount()
+    {
+        if (Auth::check()) {
+            return Panier::where('id_user_fk', Auth::id())
+                ->where('statut_actif_convert', 1)
+                ->count();
+        } else {
+            $sessionCart = session()->get('cart', []);
+            return count($sessionCart);
+        }
     }
 
     public function remove($id)
@@ -434,8 +486,8 @@ class CartController extends Controller
             ->firstOrFail();
         
         // Vérifier que l'utilisateur a le droit de voir cette commande
-        if (auth()->check()) {
-            $user = auth()->user();
+        if (Auth::check()) {
+            $user = Auth::user();
             // Utilisateur connecté : vérifier s'il est propriétaire, admin ou producteur
             if ($user->id !== $order->id_commercant_fk && $user->role !== 'admin' && $user->role !== 'producteur') {
                 abort(403, 'Vous n\'êtes pas autorisé à voir cette commande.');
