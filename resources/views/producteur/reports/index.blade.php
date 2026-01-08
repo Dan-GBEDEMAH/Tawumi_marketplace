@@ -3,79 +3,79 @@
 @section('title', 'Mes rapports')
 
 @section('content')
-<div class="container-fluid">
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Mes rapports et statistiques</h1>
+<div class="w-full p-4">
+    <div class="flex flex-row sm:flex-col md:flex-row items-center justify-between mb-4">
+        <h1 class="text-lg md:text-xl font-medium mb-0 text-gray-800">Mes rapports et statistiques</h1>
     </div>
 
     <!-- Statistiques -->
-    <div class="row">
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+    <div class="flex flex-wrap -mx-2">
+        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2 mb-4">
+            <div class="card bg-white border-l-4 border-blue-500 shadow rounded h-full py-2">
+                <div class="p-4">
+                    <div class="flex items-center">
+                        <div class="flex-1 mr-2">
+                            <div class="text-xs font-bold text-blue-500 uppercase mb-1">
                                 Revenus totaux
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ number_format($statistiques['total_revenus'], 2) }} Fcfa</div>
+                            <div class="text-lg font-bold text-gray-800">{{ number_format($statistiques['total_revenus'], 2) }} Fcfa</div>
                         </div>
-                        <div class="col-auto">
-                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-dollar-sign text-2xl text-gray-300"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2 mb-4">
+            <div class="card bg-white border-l-4 border-green-500 shadow rounded h-full py-2">
+                <div class="p-4">
+                    <div class="flex items-center">
+                        <div class="flex-1 mr-2">
+                            <div class="text-xs font-bold text-green-500 uppercase mb-1">
                                 Total commandes
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $statistiques['total_commandes'] }}</div>
+                            <div class="text-lg font-bold text-gray-800">{{ $statistiques['total_commandes'] }}</div>
                         </div>
-                        <div class="col-auto">
-                            <i class="fas fa-shopping-cart fa-2x text-gray-300"></i>
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-shopping-cart text-2xl text-gray-300"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2 mb-4">
+            <div class="card bg-white border-l-4 border-cyan-500 shadow rounded h-full py-2">
+                <div class="p-4">
+                    <div class="flex items-center">
+                        <div class="flex-1 mr-2">
+                            <div class="text-xs font-bold text-cyan-500 uppercase mb-1">
                                 Commandes ce mois
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $statistiques['commandes_ce_mois'] }}</div>
+                            <div class="text-lg font-bold text-gray-800">{{ $statistiques['commandes_ce_mois'] }}</div>
                         </div>
-                        <div class="col-auto">
-                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-calendar text-2xl text-gray-300"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2 mb-4">
+            <div class="card bg-white border-l-4 border-yellow-500 shadow rounded h-full py-2">
+                <div class="p-4">
+                    <div class="flex items-center">
+                        <div class="flex-1 mr-2">
+                            <div class="text-xs font-bold text-yellow-500 uppercase mb-1">
                                 Mes produits
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ \App\Models\Produit::where('id_producteur_fk', auth()->id())->count() }}</div>
+                            <div class="text-lg font-bold text-gray-800">{{ \App\Models\Produit::where('id_producteur_fk', auth()->id())->count() }}</div>
                         </div>
-                        <div class="col-auto">
-                            <i class="fas fa-box fa-2x text-gray-300"></i>
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-box text-2xl text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -85,25 +85,25 @@
 
    
     <!-- Détails supplémentaires -->
-    <div class="row">
-        <div class="col-lg-6 mb-4">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Mes produits les plus vendus</h6>
+    <div class="flex flex-wrap -mx-2">
+        <div class="w-full md:w-1/2 p-2 mb-4">
+            <div class="card bg-white shadow rounded mb-4">
+                <div class="py-3 px-4 border-b">
+                    <h6 class="m-0 font-bold text-blue-500">Mes produits les plus vendus</h6>
                 </div>
-                <div class="card-body">
+                <div class="p-4">
                     <p class="mb-0">Vos produits les plus populaires.</p>
                     <!-- Vous pouvez ajouter une liste ou un graphique ici -->
                 </div>
             </div>
         </div>
         
-        <div class="col-lg-6 mb-4">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Activité récente</h6>
+        <div class="w-full md:w-1/2 p-2 mb-4">
+            <div class="card bg-white shadow rounded mb-4">
+                <div class="py-3 px-4 border-b">
+                    <h6 class="m-0 font-bold text-blue-500">Activité récente</h6>
                 </div>
-                <div class="card-body">
+                <div class="p-4">
                     <p class="mb-0">Dernières activités pour vos produits.</p>
                     <!-- Vous pouvez ajouter une liste d'activités récentes ici -->
                 </div>

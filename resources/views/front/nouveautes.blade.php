@@ -4,7 +4,7 @@
 <div class="nouveautes-page">
 
     <!-- Banner Section -->
-    <section class="banner-sec banner-bg-image-2">
+    <section class="banner-sec banner-bg-image-3">
         <div class="banner-overlay"></div>
         <!-- Overlay for the banner background -->
         <div class="container" style="position: relative; z-index: 1;">
@@ -14,7 +14,7 @@
                 <p>Retrouvez nos derniers produits ajoutés avec les meilleures qualités.
                    Une sélection spéciale pour vous offrir le meilleur de nos producteurs!
                 </p>
-                <div class="nav-btn mt-4"><a href="{{ route('boutique') }}">Voir plus</a></div>
+                <div class="nav-btn mt-4"><a href="{{ route('boutique') }}" class="btn btn-success">Voir plus</a></div>
             </div>
         </div>
     </section>
