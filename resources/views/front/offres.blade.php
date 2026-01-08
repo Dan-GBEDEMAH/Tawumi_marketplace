@@ -15,21 +15,19 @@
     <!-- Offer Categories -->
     <section class="py-5">
         <div class="container">
-            <div class="offer-category">
-                <button class="category-btn active">Toutes les offres</button>
-                <button class="category-btn">Réductions</button>
-                <button class="category-btn">Produits gratuits</button>
-                <button class="category-btn">Offres limitées</button>
-                <button class="category-btn">Week-end</button>
+            <div class="offer-category d-flex justify-content-center mb-4">
+                <button class="category-btn active me-2" data-category="all">Toutes les offres</button>
+                <button class="category-btn me-2" data-category="reduction">Réductions</button>
+                <button class="category-btn me-2" data-category="gratuit">Produits gratuits</button>
+                <button class="category-btn me-2" data-category="limitee">Offres limitées</button>
+                <button class="category-btn" data-category="weekend">Week-end</button>
             </div>
-
-            <h2 class="section-title">Offres du Moment</h2>
 
             <div class="row">
                 @if(isset($produits) && $produits->count() > 0)
                     @foreach($produits as $produit)
                 <div class="col-lg-4 col-md-6">
-                    <div class="offer-card">
+                    <div class="offer-card" data-category="{{ $produit->est_gratuit ? 'gratuit' : ($produit->est_offre_weekend ? 'weekend' : ($produit->est_offre ? 'reduction' : 'limitee')) }}">
                         <div class="pr-icons">
                             <ul>
                                 <li><a href=""><i class="fa-solid fa-user"></i></a></li>
@@ -42,9 +40,20 @@
                                 </a></li>
                             </ul>
                         </div>
-                        <span class="offer-badge sale">-{{ $produit->reduction }}%</span>
                         <div class="offer-img">
                             <img src="{{ asset($produit->image) }}" alt="{{ $produit->nom }}">
+                            <!-- Badges d'offres spéciales -->
+                            <div class="product-badges">
+                                @if($produit->est_offre_weekend)
+                                    <span class="badge badge-weekend">Week-end</span>
+                                @elseif($produit->est_gratuit)
+                                    <span class="badge badge-gratuit">Gratuit</span>
+                                @elseif($produit->est_nouveaute)
+                                    <span class="badge badge-nouveaute">Nouveauté</span>
+                                @elseif($produit->est_offre && $produit->reduction)
+                                    <span class="badge badge-offre">-{{ $produit->reduction }}%</span>
+                                @endif
+                            </div>
                         </div>
                         <div class="offer-content">
                             <h3>{{ $produit->nom }}</h3>
@@ -61,22 +70,23 @@
                                 <div class="timer-title">Offre valable jusqu'à :</div>
                                 <div class="timer-flex">
                                     <div class="timer-box">
-                                        <div class="timer-value">02</div>
+                                        <div class="timer-value days">--</div>
                                         <div class="timer-label">JOURS</div>
                                     </div>
                                     <div class="timer-box">
-                                        <div class="timer-value">15</div>
+                                        <div class="timer-value hours">--</div>
                                         <div class="timer-label">HEURES</div>
                                     </div>
                                     <div class="timer-box">
-                                        <div class="timer-value">30</div>
+                                        <div class="timer-value minutes">--</div>
                                         <div class="timer-label">MIN</div>
                                     </div>
                                     <div class="timer-box">
-                                        <div class="timer-value">45</div>
+                                        <div class="timer-value seconds">--</div>
                                         <div class="timer-label">SEC</div>
                                     </div>
                                 </div>
+                                <input type="hidden" class="end-date" value="{{ $produit->date_fin_offre ? $produit->date_fin_offre->toISOString() : ($produit->created_at->addDays(7))->toISOString() }}">
                             </div>
                             <div class="cart-btn">
                                 <form method="POST" action="{{ route('cart.add') }}" class="d-inline">
@@ -182,18 +192,91 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     `;
     document.body.appendChild(modal);
-    
+        
     const closeModalButton = modal.querySelector('.close-modal');
-    
+        
+    // Filter functionality for offer categories
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    const offerProducts = document.querySelectorAll('.offer-card');
+        
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all buttons
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
+                
+            // Add active class to clicked button
+            this.classList.add('active');
+                
+            const category = this.getAttribute('data-category');
+                
+            // Show/hide products based on category
+            offerProducts.forEach(product => {
+                const productCategory = product.getAttribute('data-category');
+                    
+                if (category === 'all' || productCategory === category) {
+                    product.closest('.col-lg-4').style.display = 'block';
+                } else {
+                    product.closest('.col-lg-4').style.display = 'none';
+                }
+            });
+        });
+    });
+        
+    // Initialize countdown timers for products
+    function initializeCountdownTimers() {
+        const offerTimers = document.querySelectorAll('.offer-timer');
+            
+        offerTimers.forEach(timer => {
+            const endDateInput = timer.querySelector('.end-date');
+            if (endDateInput) {
+                const endDate = new Date(endDateInput.value);
+                    
+                // Update timer immediately and then every second
+                updateCountdown(timer, endDate);
+                setInterval(() => {
+                    updateCountdown(timer, endDate);
+                }, 1000);
+            }
+        });
+    }
+        
+    // Function to update the countdown
+    function updateCountdown(timer, endDate) {
+        const now = new Date();
+        const timeDifference = endDate - now;
+            
+        if (timeDifference <= 0) {
+            // If the timer has ended
+            timer.querySelector('.days').textContent = '00';
+            timer.querySelector('.hours').textContent = '00';
+            timer.querySelector('.minutes').textContent = '00';
+            timer.querySelector('.seconds').textContent = '00';
+            return;
+        }
+            
+        const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+            
+        timer.querySelector('.days').textContent = days.toString().padStart(2, '0');
+        timer.querySelector('.hours').textContent = hours.toString().padStart(2, '0');
+        timer.querySelector('.minutes').textContent = minutes.toString().padStart(2, '0');
+        timer.querySelector('.seconds').textContent = seconds.toString().padStart(2, '0');
+    }
+        
+    // Initialize countdown timers when the page loads
+    initializeCountdownTimers();
+        
     // Open modal when clicking on eye icon
     viewProductButtons.forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
             const productId = this.getAttribute('data-product-id');
-            
+                
             // Show modal
             modal.classList.add('active');
-            
+                
             // Fetch product details
             fetch('/product/detail', {
                 method: 'POST',
@@ -208,7 +291,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.success) {
                     const produit = data.produit;
                     const producteur = data.producteur;
-                    
+                        
+                    // Initialize countdown timers for products
+                    initializeCountdownTimers();
+                        
                     const isFavorite = data.is_favorite;
                     modal.querySelector('.product-detail-body').innerHTML = `
                         <div class="row">

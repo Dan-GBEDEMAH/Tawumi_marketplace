@@ -73,6 +73,18 @@
                         </div>
                         <div class="pr-img">
                             <img src="{{ $produit->image }}" alt="{{ $produit->nom }}">
+                            <!-- Badges d'offres spéciales -->
+                            <div class="product-badges">
+                                @if($produit->est_offre_weekend)
+                                    <span class="badge badge-weekend">Week-end</span>
+                                @elseif($produit->est_gratuit)
+                                    <span class="badge badge-gratuit">Gratuit</span>
+                                @elseif($produit->est_nouveaute)
+                                    <span class="badge badge-nouveaute">Nouveauté</span>
+                                @elseif($produit->est_offre && $produit->reduction)
+                                    <span class="badge badge-offre">-{{ $produit->reduction }}%</span>
+                                @endif
+                            </div>
                         </div>
                         <div class="pr-text">
                             <h6>En stock</h6>

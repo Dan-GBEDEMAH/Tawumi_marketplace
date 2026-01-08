@@ -105,11 +105,11 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <label for="date_debut_offre">Date de début de l'offre</label>
-                                                <input type="datetime-local" class="form-control form-control-user" id="date_debut_offre" name="date_debut_offre" value="{{ old('date_debut_offre', $produit->date_debut_offre ? $produit->date_debut_offre->format('Y-m-d\TH:i') : '') }}">
+                                                <input type="datetime-local" class="form-control form-control-user" id="date_debut_offre" name="date_debut_offre" value="{{ old('date_debut_offre', $produit->date_debut_offre ? (is_string($produit->date_debut_offre) ? $produit->date_debut_offre : $produit->date_debut_offre->format('Y-m-d\TH:i')) : '') }}">
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="date_fin_offre">Date de fin de l'offre</label>
-                                                <input type="datetime-local" class="form-control form-control-user" id="date_fin_offre" name="date_fin_offre" value="{{ old('date_fin_offre', $produit->date_fin_offre ? $produit->date_fin_offre->format('Y-m-d\TH:i') : '') }}">
+                                                <input type="datetime-local" class="form-control form-control-user" id="date_fin_offre" name="date_fin_offre" value="{{ old('date_fin_offre', $produit->date_fin_offre ? (is_string($produit->date_fin_offre) ? $produit->date_fin_offre : $produit->date_fin_offre->format('Y-m-d\TH:i')) : '') }}">
                                             </div>
                                         </div>
                                     </div>
@@ -128,7 +128,8 @@
                                             advancedOfferOptions.style.display = 'block';
                                         } else {
                                             reductionField.style.display = 'none';
-                                            advancedOfferOptions.style.display = 'none';
+                                            // Réinitialiser la valeur du champ
+                                            document.getElementById('reduction').value = '';
                                         }
                                     }
                                     

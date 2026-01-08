@@ -348,6 +348,8 @@ class CartController extends Controller
             'instructions' => 'nullable|string',
             'delivery' => 'required|in:standard,express',
             'payment' => 'required|in:cash,card,mobile',
+            'bank' => 'nullable|required_if:payment,card|in:UTB,Ecobank,Orabank',
+            'mobile' => 'nullable|required_if:payment,mobile|in:Flooz,Mixx',
         ]);
 
         $cartItems = collect();
@@ -450,14 +452,24 @@ class CartController extends Controller
             }
 
             // Create payment record
-            $payment = \App\Models\Paiement::create([
+            $paymentData = [
                 'id_commande_fk' => $order->id,
                 'montant' => $total,
                 'mode_paiement' => $request->payment,
                 'statut_paiement' => $request->payment === 'cash' ? 'en_attente' : 'en_attente', // For card/mobile, this would be updated after actual payment
                 'date_paiement' => now(),
-                'methode_TMoney_Flooz' => $request->payment, // Store the selected payment method
-            ]);
+            ];
+            
+            // Add payment details based on payment method
+            if ($request->payment === 'card' && $request->bank) {
+                $paymentData['details_paiement'] = $request->bank;
+            } elseif ($request->payment === 'mobile' && $request->mobile) {
+                $paymentData['details_paiement'] = $request->mobile;
+            } else {
+                $paymentData['details_paiement'] = $request->payment; // For cash payment
+            }
+            
+            $payment = \App\Models\Paiement::create($paymentData);
 
             // Clear the cart
             if (Auth::check()) {

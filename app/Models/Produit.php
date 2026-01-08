@@ -9,6 +9,19 @@ class Produit extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'prix_unitaire' => 'decimal:2',
+        'reduction' => 'decimal:2',
+        'est_nouveaute' => 'boolean',
+        'est_offre' => 'boolean',
+        'est_en_avant' => 'boolean',
+        'est_gratuit' => 'boolean',
+        'est_offre_weekend' => 'boolean',
+        'date_debut_offre' => 'datetime',
+        'date_fin_offre' => 'datetime',
+        'stock_disponible' => 'integer',
+    ];
+
     protected $fillable = [
         'nom',
         'description',
@@ -100,11 +113,14 @@ class Produit extends Model
     public function getImageAttribute()
     {
         if ($this->image_produit) {
-            $imagePath = storage_path('app/public/' . $this->image_produit);
-            if (file_exists($imagePath)) {
+            // Vérifier si le fichier existe physiquement dans le stockage
+            if (file_exists(storage_path('app/public/' . $this->image_produit))) {
                 return asset('storage/' . $this->image_produit);
+            } else {
+                // Si le fichier n'existe pas, retourner une image de substitution
+                return 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg==';
             }
         }
-        return asset('assets/images/placeholder.png'); // Default placeholder image
+        return 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='; // Default SVG placeholder image
     }
 }

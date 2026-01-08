@@ -20,6 +20,30 @@
                             <div class="p-5">
                                 <form method="POST" action="{{ route('producteur.products.store') }}" enctype="multipart/form-data">
                                     @csrf
+                                    <!-- Champs cachés pour garantir que les valeurs booléennes sont envoyées -->
+                                    <input type="hidden" name="est_nouveaute" value="0">
+                                    <input type="hidden" name="est_offre" value="0">
+                                    <input type="hidden" name="est_en_avant" value="0">
+                                    <input type="hidden" name="est_gratuit" value="0">
+                                    <input type="hidden" name="est_offre_weekend" value="0">
+                                    @if (session('success'))
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            <i class="fas fa-check-circle"></i> {{ session('success') }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    @endif
+                                    
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger alert-dismissible fade show">
+                                            <i class="fas fa-exclamation-triangle"></i> <strong>Erreurs de validation :</strong>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            <ul class="mb-0 mt-2">
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
                                     <div class="form-group">
                                         <label for="nom">Nom du produit</label>
                                         <input type="text" class="form-control form-control-user" id="nom" name="nom" value="{{ old('nom') }}" required>
@@ -66,7 +90,7 @@
                                         </div>
                                         <div class="col-sm-4 mb-3 mb-sm-0">
                                             <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" id="est_offre" name="est_offre" value="1" onchange="toggleReduction(this)">
+                                                <input type="checkbox" class="form-check-input" id="est_offre" name="est_offre" value="1" onchange="checkAdvancedOptions()">
                                                 <label class="form-check-label" for="est_offre">Offre</label>
                                             </div>
                                         </div>
@@ -83,9 +107,9 @@
                                         <input type="number" class="form-control form-control-user" id="reduction" name="reduction" min="0" max="100" placeholder="Entrez le pourcentage de réduction">
                                     </div>
                                     
-                                    <div class="form-group" id="advanced_offer_options" style="display: none;">
+                                    <div class="form-group" id="advanced_offer_options">
                                         <div class="form-check mb-2">
-                                            <input type="checkbox" class="form-check-input" id="est_gratuit" name="est_gratuit" value="1">
+                                            <input type="checkbox" class="form-check-input" id="est_gratuit" name="est_gratuit" value="1" onchange="checkAdvancedOptions()">
                                             <label class="form-check-label" for="est_gratuit">Produit gratuit</label>
                                         </div>
                                         <div class="form-group mb-2">
@@ -93,7 +117,7 @@
                                             <input type="number" class="form-control form-control-user" id="quantite_limitee" name="quantite_limitee" min="1" placeholder="Nombre maximum à vendre">
                                         </div>
                                         <div class="form-check mb-2">
-                                            <input type="checkbox" class="form-check-input" id="est_offre_weekend" name="est_offre_weekend" value="1">
+                                            <input type="checkbox" class="form-check-input" id="est_offre_weekend" name="est_offre_weekend" value="1" onchange="checkAdvancedOptions()">
                                             <label class="form-check-label" for="est_offre_weekend">Offre week-end</label>
                                         </div>
                                         <div class="row">
@@ -109,22 +133,32 @@
                                     </div>
                                     
                                     <button type="submit" class="btn btn-primary btn-user btn-block">
-                                        Créer le produit
+                                        Ajouter le produit
                                     </button>
                                 </form>
                                 <script>
-                                    function toggleReduction(checkbox) {
-                                        const reductionField = document.getElementById('reduction_field');
-                                        const advancedOfferOptions = document.getElementById('advanced_offer_options');
+                                    function checkAdvancedOptions() {
+                                        const offreCheckbox = document.getElementById('est_offre');
+                                        const gratuitCheckbox = document.getElementById('est_gratuit');
+                                        const weekendCheckbox = document.getElementById('est_offre_weekend');
                                         
-                                        if (checkbox.checked) {
+                                        const reductionField = document.getElementById('reduction_field');
+                                        const reductionInput = document.getElementById('reduction');
+                                        
+                                        // Afficher le champ de réduction si 'Offre' est cochée
+                                        if (offreCheckbox.checked) {
                                             reductionField.style.display = 'block';
-                                            advancedOfferOptions.style.display = 'block';
                                         } else {
                                             reductionField.style.display = 'none';
-                                            advancedOfferOptions.style.display = 'none';
+                                            // Réinitialiser la valeur du champ
+                                            reductionInput.value = '';
                                         }
                                     }
+                                    
+                                    // Initialiser l'affichage au chargement de la page
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        checkAdvancedOptions();
+                                    });
                                 </script>
                             </div>
                         </div>

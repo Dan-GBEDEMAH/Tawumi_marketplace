@@ -192,7 +192,12 @@ class AdminDashboardController extends Controller
         
         if ($request->hasFile('image_produit')) {
             $image = $request->file('image_produit');
-            $imageName = time() . '_' . $image->getClientOriginalName();
+            // Nettoyer le nom du fichier pour éviter les problèmes de caractères spéciaux
+            $originalName = $image->getClientOriginalName();
+            $extension = $image->getClientOriginalExtension();
+            $filename = pathinfo($originalName, PATHINFO_FILENAME);
+            $filename = preg_replace('/[^A-Za-z0-9_\-]/', '_', $filename); // Remplacer les caractères spéciaux par des underscores
+            $imageName = time() . '_' . $filename . '.' . $extension;
             $image->storeAs('public/products', $imageName);
             $data['image_produit'] = 'products/' . $imageName;
         }
@@ -240,7 +245,12 @@ class AdminDashboardController extends Controller
             }
             
             $image = $request->file('image_produit');
-            $imageName = time() . '_' . $image->getClientOriginalName();
+            // Nettoyer le nom du fichier pour éviter les problèmes de caractères spéciaux
+            $originalName = $image->getClientOriginalName();
+            $extension = $image->getClientOriginalExtension();
+            $filename = pathinfo($originalName, PATHINFO_FILENAME);
+            $filename = preg_replace('/[^A-Za-z0-9_\-]/', '_', $filename); // Remplacer les caractères spéciaux par des underscores
+            $imageName = time() . '_' . $filename . '.' . $extension;
             $image->storeAs('public/products', $imageName);
             $data['image_produit'] = 'products/' . $imageName;
         }

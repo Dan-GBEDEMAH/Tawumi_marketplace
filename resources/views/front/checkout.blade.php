@@ -82,14 +82,14 @@
                         <h4 class="mt-4">Méthode de livraison</h4>
                         <div class="delivery-options">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="delivery" id="delivery1" value="standard" checked>
+                                <input class="form-check-input" type="radio" name="delivery" id="delivery1" value="standard" checked onchange="handleDeliveryChange()">
                                 <label class="form-check-label" for="delivery1">
                                     <strong>Livraison standard (2-3 jours ouvrables)</strong> <span class="float-end">Gratuite</span>
                                 </label>
                                 <p class="text-muted small">Livraison à domicile standard</p>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="delivery" id="delivery2" value="express">
+                                <input class="form-check-input" type="radio" name="delivery" id="delivery2" value="express" onchange="handleDeliveryChange()">
                                 <label class="form-check-label" for="delivery2">
                                     <strong>Livraison express (1 jour ouvrable)</strong> <span class="float-end">500 Fcfa</span>
                                 </label>
@@ -100,26 +100,125 @@
                         <h4 class="mt-4">Méthode de paiement</h4>
                         <div class="payment-options">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="payment" id="payment1" value="cash" checked>
+                                <input class="form-check-input" type="radio" name="payment" id="payment1" value="cash" checked onchange="handlePaymentChange()">
                                 <label class="form-check-label" for="payment1">
                                     <i class="fas fa-money-bill-wave"></i> Paiement à la livraison
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="payment" id="payment2" value="card">
+                                <input class="form-check-input" type="radio" name="payment" id="payment2" value="card" onchange="handlePaymentChange()">
                                 <label class="form-check-label" for="payment2">
                                     <i class="fas fa-credit-card"></i> Carte bancaire
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="payment" id="payment3" value="mobile">
+                                <input class="form-check-input" type="radio" name="payment" id="payment3" value="mobile" onchange="handlePaymentChange()">
                                 <label class="form-check-label" for="payment3">
                                     <i class="fas fa-mobile-alt"></i> Paiement mobile (Flooz, Mixx By Yas)
                                 </label>
                             </div>
                         </div>
+                        
+                        <!-- Options de carte bancaire (cachées par défaut) -->
+                        <div id="bank-options" class="mt-3" style="display: none;">
+                            <h5>Choisissez votre banque</h5>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="bank" id="bank1" value="UTB" disabled>
+                                <label class="form-check-label" for="bank1">
+                                    <img src="{{ asset('assets/images/-UTB-VISA.jpg') }}" alt="UTB Logo" width="30" height="30" class="me-2" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;30&quot; height=&quot;30&quot; viewBox=&quot;0 0 30 30&quot;><rect width=&quot;30&quot; height=&quot;30&quot; fill=&quot;%23003366&quot;/><text x=&quot;15&quot; y=&quot;19&quot; font-family=&quot;Arial&quot; font-size=&quot;10&quot; fill=&quot;white&quot; text-anchor=&quot;middle&quot;>UTB</text></svg>';">
+                                    UTB (Union Togolaise de Banque)
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="bank" id="bank2" value="Ecobank" disabled>
+                                <label class="form-check-label" for="bank2">
+                                    <img src="{{ asset('assets/images/ecobank.png') }}" alt="Ecobank Logo" width="30" height="30" class="me-2" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;30&quot; height=&quot;30&quot; viewBox=&quot;0 0 30 30&quot;><rect width=&quot;30&quot; height=&quot;30&quot; fill=&quot;%230066CC&quot;/><text x=&quot;15&quot; y=&quot;19&quot; font-family=&quot;Arial&quot; font-size=&quot;8&quot; fill=&quot;white&quot; text-anchor=&quot;middle&quot;>ECOBANK</text></svg>';">
+                                    Ecobank Togo
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="bank" id="bank3" value="Orabank" disabled>
+                                <label class="form-check-label" for="bank3">
+                                    <img src="{{ asset('assets/images/orabank.jpg') }}" alt="Orabank Logo" width="30" height="30" class="me-2" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;30&quot; height=&quot;30&quot; viewBox=&quot;0 0 30 30&quot;><rect width=&quot;30&quot; height=&quot;30&quot; fill=&quot;%23FF6600&quot;/><text x=&quot;15&quot; y=&quot;19&quot; font-family=&quot;Arial&quot; font-size=&quot;8&quot; fill=&quot;white&quot; text-anchor=&quot;middle&quot;>ORABANK</text></svg>';">
+                                    Orabank Togo
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Options de paiement mobile (cachées par défaut) -->
+                        <div id="mobile-options" class="mt-3" style="display: none;">
+                            <h5>Choisissez votre méthode de paiement mobile</h5>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="mobile" id="mobile1" value="Flooz" disabled>
+                                <label class="form-check-label" for="mobile1">
+                                    <img src="{{ asset('assets/images/flooz.jpg') }}" alt="Flooz Logo" width="30" height="30" class="me-2" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;30&quot; height=&quot;30&quot; viewBox=&quot;0 0 30 30&quot;><rect width=&quot;30&quot; height=&quot;30&quot; fill=&quot;%2300AA00&quot;/><text x=&quot;15&quot; y=&quot;19&quot; font-family=&quot;Arial&quot; font-size=&quot;10&quot; fill=&quot;white&quot; text-anchor=&quot;middle&quot;>FLOOZ</text></svg>';">
+                                    Flooz
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="mobile" id="mobile2" value="Mixx" disabled>
+                                <label class="form-check-label" for="mobile2">
+                                    <img src="{{ asset('assets/images/yas.jpg') }}" alt="Mixx By Yas Logo" width="30" height="30" class="me-2" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;30&quot; height=&quot;30&quot; viewBox=&quot;0 0 30 30&quot;><rect width=&quot;30&quot; height=&quot;30&quot; fill=&quot;%23CC0000&quot;/><text x=&quot;15&quot; y=&quot;19&quot; font-family=&quot;Arial&quot; font-size=&quot;8&quot; fill=&quot;white&quot; text-anchor=&quot;middle&quot;>MIXX</text></svg>';">
+                                    Mixx By Yas
+                                </label>
+                            </div>
+                        </div>
                     </form>
                 </div>
+                
+                <script>
+                    function handleDeliveryChange() {
+                        const deliveryValue = document.querySelector('input[name="delivery"]:checked').value;
+                        const cashOption = document.getElementById('payment1');
+                        
+                        // Si livraison à domicile sélectionnée, sélectionner automatiquement le paiement en espèces
+                        if (deliveryValue === 'standard' || deliveryValue === 'express') {
+                            cashOption.checked = true;
+                            
+                            // Mettre à jour l'affichage des options de paiement
+                            handlePaymentChange();
+                        }
+                    }
+                    
+                    function handlePaymentChange() {
+                        const paymentValue = document.querySelector('input[name="payment"]:checked').value;
+                        
+                        // Réinitialiser les options bancaires et mobile
+                        document.querySelectorAll('input[name="bank"]').forEach(radio => {
+                            radio.disabled = true;
+                        });
+                        document.querySelectorAll('input[name="mobile"]').forEach(radio => {
+                            radio.disabled = true;
+                        });
+                        
+                        // Afficher/masquer les options selon le mode de paiement
+                        if (paymentValue === 'card') {
+                            document.getElementById('bank-options').style.display = 'block';
+                            document.getElementById('mobile-options').style.display = 'none';
+                            
+                            // Activer les options de banque
+                            document.querySelectorAll('input[name="bank"]').forEach(radio => {
+                                radio.disabled = false;
+                            });
+                        } else if (paymentValue === 'mobile') {
+                            document.getElementById('bank-options').style.display = 'none';
+                            document.getElementById('mobile-options').style.display = 'block';
+                            
+                            // Activer les options de paiement mobile
+                            document.querySelectorAll('input[name="mobile"]').forEach(radio => {
+                                radio.disabled = false;
+                            });
+                        } else if (paymentValue === 'cash') {
+                            document.getElementById('bank-options').style.display = 'none';
+                            document.getElementById('mobile-options').style.display = 'none';
+                        }
+                    }
+                    
+                    // Initialiser au chargement de la page
+                    document.addEventListener('DOMContentLoaded', function() {
+                        handlePaymentChange();
+                    });
+                </script>
             </div>
             
             <div class="col-lg-4">

@@ -20,6 +20,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>Image</th>
                             <th>ID</th>
                             <th>Nom</th>
                             <th>Catégorie</th>
@@ -32,6 +33,13 @@
                     <tbody>
                         @foreach($produits as $produit)
                         <tr>
+                            <td>
+                                @if($produit->image_produit)
+                                    <img src="{{ $produit->image }}" alt="{{ $produit->nom }}" style="width: 50px; height: 50px; object-fit: cover;">
+                                @else
+                                    <span>Aucune image</span>
+                                @endif
+                            </td>
                             <td>{{ $produit->id }}</td>
                             <td>{{ $produit->nom }}</td>
                             <td>{{ $produit->categorie->nom ?? 'N/A' }}</td>

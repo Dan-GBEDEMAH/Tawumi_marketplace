@@ -14,7 +14,8 @@ class Paiement extends Model
         'montant',
         'date_paiement',
         'statut_paiement',
-        'methode_TMoney_Flooz',
+        'mode_paiement',
+        'details_paiement',
     ];
 
     protected $casts = [

@@ -68,10 +68,14 @@
 </head>
 <body>
     <div class="header">
-        <h1><i class="fas fa-file-invoice"></i> FACTURE</h1>
-        <a href="{{ route('invoice.download', $order->id) }}" class="btn-download">
-            <i class="fas fa-download"></i> Télécharger la facture
-        </a>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <img src="{{ asset('assets/images/logo.png') }}" alt="TawumiConfirm Logo" style="height: 80px;">
+            </div>
+            <div>
+                <h1 style="margin: 0; color: #28a745;"><i class="fas fa-file-invoice"></i> FACTURE</h1>
+            </div>
+        </div>
     </div>
     
     <div style="display: flex; justify-content: space-between;">
@@ -145,18 +149,18 @@
             <div class="payment-info" style="width: 48%;">
                 <h4>Informations de paiement</h4>
                 <p><strong>Mode de paiement: </strong>
-                @switch($order->paiements->first()->methode_TMoney_Flooz)
+                @switch($order->paiements->first()->mode_paiement)
                     @case('cash')
                         Paiement à la livraison
                         @break
                     @case('card')
-                        Carte bancaire
+                        Carte bancaire ({{ $order->paiements->first()->details_paiement }})
                         @break
                     @case('mobile')
-                        Paiement mobile (Flooz, Mixx By Yas)
+                        Paiement mobile ({{ $order->paiements->first()->details_paiement }})
                         @break
                     @default
-                        {{ $order->paiements->first()->methode_TMoney_Flooz }}
+                        {{ $order->paiements->first()->mode_paiement }}
                 @endswitch
                 </p>
             </div>

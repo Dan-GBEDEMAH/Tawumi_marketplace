@@ -79,7 +79,7 @@ class ProducteurDashboardController extends Controller
             'image_produit' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'est_nouveaute' => 'boolean',
             'est_offre' => 'boolean',
-            'reduction' => 'nullable|numeric|min:0|max:100|required_if:est_offre,1',
+            'reduction' => 'nullable|numeric|min:0|max:100',
             'est_en_avant' => 'boolean',
             'est_gratuit' => 'boolean',
             'quantite_limitee' => 'nullable|integer|min:1',
@@ -88,14 +88,45 @@ class ProducteurDashboardController extends Controller
             'date_fin_offre' => 'nullable|date|after_or_equal:date_debut_offre',
         ]);
 
+        // Normaliser les valeurs booléennes
         $data = $request->except('image_produit');
         $data['id_producteur_fk'] = Auth::id();
         
+        // Gérer explicitement les champs booléens
+        $booleanFields = ['est_nouveaute', 'est_offre', 'est_en_avant', 'est_gratuit', 'est_offre_weekend'];
+        foreach ($booleanFields as $field) {
+            $data[$field] = $request->has($field) ? (bool) $request->$field : false;
+        }
+        
         if ($request->hasFile('image_produit')) {
             $image = $request->file('image_produit');
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->storeAs('public/products', $imageName);
-            $data['image_produit'] = 'products/' . $imageName;
+            
+            // Vérifier si le fichier est valide
+            if (!$image->isValid()) {
+                return redirect()->back()->withErrors(['image_produit' => "Le fichier image n'est pas valide."]);
+            }
+            
+            // Nettoyer le nom du fichier pour éviter les problèmes de caractères spéciaux
+            $originalName = $image->getClientOriginalName();
+            $extension = $image->getClientOriginalExtension();
+            $filename = pathinfo($originalName, PATHINFO_FILENAME);
+            $filename = preg_replace('/[^A-Za-z0-9_-]/', '_', $filename); // Remplacer les caractères spéciaux par des underscores
+            $imageName = time() . '_' . $filename . '.' . $extension;
+            
+            // Créer le dossier s'il n'existe pas
+            $storagePath = storage_path('app/public/products');
+            if (!file_exists($storagePath)) {
+                mkdir($storagePath, 0755, true);
+            }
+            
+            // Utiliser move() pour déplacer le fichier uploadé
+            $destinationPath = storage_path('app/public/products/' . $imageName);
+            
+            if ($image->move($storagePath, $imageName)) {
+                $data['image_produit'] = 'products/' . $imageName;
+            } else {
+                return redirect()->back()->withErrors(['image_produit' => "Échec de l'upload de l'image. Veuillez vérifier les permissions du dossier de stockage."]);
+            }
         }
 
         Produit::create($data);
@@ -126,7 +157,7 @@ class ProducteurDashboardController extends Controller
             'image_produit' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'est_nouveaute' => 'boolean',
             'est_offre' => 'boolean',
-            'reduction' => 'nullable|numeric|min:0|max:100|required_if:est_offre,1',
+            'reduction' => 'nullable|numeric|min:0|max:100',
             'est_en_avant' => 'boolean',
             'est_gratuit' => 'boolean',
             'quantite_limitee' => 'nullable|integer|min:1',
@@ -136,7 +167,13 @@ class ProducteurDashboardController extends Controller
         ]);
 
         $produit = Produit::where('id_producteur_fk', Auth::id())->findOrFail($id);
+        
+        // Gérer explicitement les champs booléens
         $data = $request->except('image_produit');
+        $booleanFields = ['est_nouveaute', 'est_offre', 'est_en_avant', 'est_gratuit', 'est_offre_weekend'];
+        foreach ($booleanFields as $field) {
+            $data[$field] = $request->has($field) ? (bool) $request->$field : false;
+        }
         
         if ($request->hasFile('image_produit')) {
             // Supprimer l'ancienne image si elle existe
@@ -148,9 +185,33 @@ class ProducteurDashboardController extends Controller
             }
             
             $image = $request->file('image_produit');
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->storeAs('public/products', $imageName);
-            $data['image_produit'] = 'products/' . $imageName;
+            
+            // Vérifier si le fichier est valide
+            if (!$image->isValid()) {
+                return redirect()->back()->withErrors(['image_produit' => "Le fichier image n'est pas valide."]);
+            }
+            
+            // Nettoyer le nom du fichier pour éviter les problèmes de caractères spéciaux
+            $originalName = $image->getClientOriginalName();
+            $extension = $image->getClientOriginalExtension();
+            $filename = pathinfo($originalName, PATHINFO_FILENAME);
+            $filename = preg_replace('/[^A-Za-z0-9_-]/', '_', $filename); // Remplacer les caractères spéciaux par des underscores
+            $imageName = time() . '_' . $filename . '.' . $extension;
+            
+            // Créer le dossier s'il n'existe pas
+            $storagePath = storage_path('app/public/products');
+            if (!file_exists($storagePath)) {
+                mkdir($storagePath, 0755, true);
+            }
+            
+            // Utiliser move() pour déplacer le fichier uploadé
+            $destinationPath = storage_path('app/public/products/' . $imageName);
+            
+            if ($image->move($storagePath, $imageName)) {
+                $data['image_produit'] = 'products/' . $imageName;
+            } else {
+                return redirect()->back()->withErrors(['image_produit' => "Échec de l'upload de l'image. Veuillez vérifier les permissions du dossier de stockage."]);
+            }
         }
 
         $produit->update($data);
@@ -165,6 +226,15 @@ class ProducteurDashboardController extends Controller
         }
 
         $produit = Produit::where('id_producteur_fk', Auth::id())->findOrFail($id);
+        
+        // Supprimer l'image du stockage si elle existe
+        if ($produit->image_produit) {
+            $imagePath = storage_path('app/public/' . $produit->image_produit);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+        
         $produit->delete();
 
         return redirect()->route('producteur.products')->with('success', 'Produit supprimé avec succès!');
