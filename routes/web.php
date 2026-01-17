@@ -12,6 +12,12 @@ Route::get('/', [PagesController::class, 'index'])->name('home');
 
 // Frontend routes
 Route::get('/boutique', [PagesController::class, 'boutique'])->name('boutique');
+Route::get('/privacy-policy', function() {
+    return view('front.privacy');
+})->name('privacy.policy');
+Route::get('/politique-confidentialite', function() {
+    return view('front.privacy');
+})->name('privacy.policy.fr');
 Route::get('/nouveautes', [PagesController::class, 'nouveautes'])->name('nouveautes');
 Route::get('/offres', [PagesController::class, 'offres'])->name('offres');
 Route::get('/blogs', [PagesController::class, 'blogs'])->name('blogs');
@@ -73,6 +79,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     
     Route::get('/reports', [AdminDashboardController::class, 'reports'])->name('admin.reports');
     Route::get('/settings', [AdminDashboardController::class, 'settings'])->name('admin.settings');
+    Route::put('/settings/profile', [AdminDashboardController::class, 'updateProfile'])->name('admin.profile.update');
+    Route::put('/settings/password', [AdminDashboardController::class, 'updatePassword'])->name('admin.password.update');
+    Route::post('/settings/save-data', [AdminDashboardController::class, 'saveData'])->name('admin.data.save');
 });
 
 // Producteur Dashboard routes
@@ -98,6 +107,10 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Password Change Routes
+Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('/forgot-password', [AuthController::class, 'changePasswordDirectly'])->name('password.update');
 
 // Dashboard routes (protected)
 // Route::get('/admin/dashboard', function () {

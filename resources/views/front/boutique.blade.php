@@ -465,7 +465,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </section>
 
     <!-- Producer Showcase Section -->
-    <section class="producer-showcase py-5 bg-light">
+    <section id="producteurs-section" class="producer-showcase py-5 bg-light">
         <div class="container">
             <h2 class="title text-center mb-5">Nos Producteurs</h2>
             <div class="row">

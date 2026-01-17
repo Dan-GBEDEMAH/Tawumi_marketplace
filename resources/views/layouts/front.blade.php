@@ -45,6 +45,11 @@
     
      <x-footer/>
 
+    @if(request()->routeIs('home'))
+    {{-- Cookie Consent Banner --}}
+    <x-cookie-consent />
+    @endif
+
     <script src="{{ asset('assets/script.js') }}"></script>
     <!-- bootsrap js  -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"

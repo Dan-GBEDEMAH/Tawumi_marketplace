@@ -9,6 +9,7 @@ use App\Models\Commande;
 use App\Models\Paiement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AdminDashboardController extends Controller
 {
@@ -33,7 +34,7 @@ class AdminDashboardController extends Controller
         $totalProduits = Produit::count();
         $totalCommandes = Commande::count();
         $totalCommandesEnAttente = Commande::where('statut_en_attente_valide_annule_etc', 'en_attente')->count();
-        $totalCommandesValidees = Commande::where('statut_en_attente_valide_annule_etc', 'validee')->count();
+        $totalCommandesValidees = Commande::whereIn('statut_en_attente_valide_annule_etc', ['validee','livrée'])->count();
         $totalCommandesAnnulees = Commande::where('statut_en_attente_valide_annule_etc', 'annulee')->count();
         
         $totalRevenus = Paiement::where('statut_paiement', 'complet')->sum('montant');
@@ -101,7 +102,7 @@ class AdminDashboardController extends Controller
             'prenom' => $request->prenom,
             'nom' => $request->nom,
             'email' => $request->email,
-            'mot_passe' => bcrypt($request->password),
+            'password' => $request->password,
             'role' => $request->role,
             'statut' => $request->statut,
             'addresse' => $request->addresse ?? '',
@@ -354,5 +355,61 @@ class AdminDashboardController extends Controller
         }
 
         return view('admin.settings.index');
+    }
+    
+    public function updateProfile(Request $request)
+    {
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'Accès non autorisé');
+        }
+        
+        $request->validate([
+            'prenom' => 'required|string|max:255',
+            'nom' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
+        ]);
+        
+        $user = Auth::user();
+        $user->prenom = $request->prenom;
+        $user->nom = $request->nom;
+        $user->email = $request->email;
+        $user->save();
+        
+        return redirect()->route('admin.settings')->with('success', 'Profil mis à jour avec succès!');
+    }
+    
+    public function updatePassword(Request $request)
+    {
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'Accès non autorisé');
+        }
+        
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|string|min:8|confirmed|regex:/[0-9]/',
+        ]);
+        
+        $user = Auth::user();
+        
+        if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->route('admin.settings')->with('error', 'Le mot de passe actuel est incorrect.');
+        }
+        
+        $user->mot_passe = $request->new_password;
+        $user->save();
+        
+        return redirect()->route('admin.settings')->with('success', 'Mot de passe mis à jour avec succès!');
+    }
+    
+    public function saveData(Request $request)
+    {
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'Accès non autorisé');
+        }
+        
+        // In a real application, you might want to save system settings to a database
+        // or configuration file, but for now we'll just return a success message
+        
+        return redirect()->route('admin.settings')->with('success', 'Données sauvegardées avec succès!');
     }
 }

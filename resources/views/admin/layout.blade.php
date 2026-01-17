@@ -11,11 +11,11 @@
     
     <style>
         :root {
-            --agricultural-green: #4CAF50;
-            --agricultural-light-green: #287233;
-            --agricultural-dark-green: #388E3C;
-            --agricultural-leaf: #795548;
-            --agricultural-brown: #5D4037;
+            --primary-green: #4CAF50;
+            --secondary-green: #287233;
+            --accent-green: #8BC34A;
+            --dark-green: #388E3C;
+            --light-green: #C8E6C9;
         }
         
         body {
@@ -25,17 +25,17 @@
         
         .sidebar {
             min-height: 100vh;
-            background: linear-gradient(180deg, var(--agricultural-green) 0%, var(--agricultural-light-green) 100%);
+            background: linear-gradient(180deg, var(--primary-green) 0%, var(--secondary-green) 100%);
             color: white;
             border-right: 1px solid rgba(0,0,0,0.1);
         }
         
         .main-content {
-            background-color: #f0f7f0;
+            background-color: #f8f9fa;
         }
         
         .card-stat {
-            border-left: 4px solid var(--agricultural-green);
+            border-left: 4px solid var(--primary-green);
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             transition: transform 0.2s;
@@ -64,7 +64,7 @@
         }
         
         .dashboard-header {
-            background: linear-gradient(90deg, var(--agricultural-green) 0%, var(--agricultural-light-green) 100%);
+            background: linear-gradient(90deg, var(--primary-green) 0%, var(--accent-green) 100%);
             color: white;
             padding: 15px 30px;
             border-radius: 0 0 10px 10px;
@@ -72,8 +72,8 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         
-        .agricultural-icon {
-            color: var(--agricultural-green);
+        .dashboard-icon {
+            color: white;
             font-size: 1.5rem;
         }
     </style>
@@ -82,20 +82,16 @@
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar">
                 <div class="position-sticky pt-3">
                     <div class="text-center mb-4 p-3">
                         <h5 class="text-white">TawumiConfirm</h5>
-                        <p class="text-white-50 mb-0">Tableau de bord Admin</p>
-                        <div class="mt-2">
-                            <i class="fas fa-seedling agricultural-icon fa-2x"></i>
-                        </div>
                     </div>
                     
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
-                                <i class="fas fa-tractor me-2"></i>Tableau de bord
+                                <i class="fas fa-tachometer-alt me-2"></i>Tableau de bord
                             </a>
                         </li>
                         <li class="nav-item">
@@ -105,7 +101,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('admin.products*') ? 'active' : '' }}" href="{{ route('admin.products') }}">
-                                <i class="fas fa-apple-alt me-2"></i>Gestion des produits
+                                <i class="fas fa-box me-2"></i>Gestion des produits
                             </a>
                         </li>
                         <li class="nav-item">
@@ -141,7 +137,7 @@
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
                 <div class="dashboard-header">
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
-                        <h1 class="h3 mb-0"><i class="fas fa-leaf me-2"></i>@yield('title', 'Tableau de bord')</h1>
+                        <h1 class="h3 mb-0">@yield('title', 'Tableau de bord')</h1>
                         <div class="btn-toolbar mb-2 mb-md-0">
                             <div class="btn-group me-2">
                                 <a href="{{ route('home') }}" class="btn btn-sm btn-outline-light">

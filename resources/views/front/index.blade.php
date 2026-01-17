@@ -63,11 +63,10 @@
                             <div class="pr-icons">
                                 <ul>
                                     
-                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="{{ $produit->id }}">
-                                        <i class="fa-solid fa-heart {{ in_array($produit->id, session()->get('favorites', [])) ? 'active' : '' }}" 
-                                           @if(in_array($produit->id, session()->get('favorites', []))) style="color: #e74c3c;" @endif></i>
+                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="">
+                                        <i class="fa-solid fa-heart"></i>
                                     </a></li>
-                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="{{ $produit->id }}">
+                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="">
                                         <i class="fa-solid fa-eye"></i>
                                     </a></li>
                                 </ul>
@@ -113,7 +112,7 @@
                     <img src="{{ asset('assets/images/back-img-2.png') }}" alt="Offres">
                     <div class="product-time">
                         <div class="pr-time-text">
-                            <h4 class="text-white">Offres de la semaine</h4>
+                            <h4 class="text-white">Nouveautés de la semaine</h4>
                         </div>
                         <div class="timer-flex">
                             <ul>
@@ -135,11 +134,10 @@
                             <div class="pr-icons">
                                 <ul>
                                     
-                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="{{ $produit->id }}">
-                                        <i class="fa-solid fa-heart {{ in_array($produit->id, session()->get('favorites', [])) ? 'active' : '' }}" 
-                                           @if(in_array($produit->id, session()->get('favorites', []))) style="color: #e74c3c;" @endif></i>
+                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="">
+                                        <i class="fa-solid fa-heart"></i>
                                     </a></li>
-                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="{{ $produit->id }}">
+                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="">
                                         <i class="fa-solid fa-eye"></i>
                                     </a></li>
                                 </ul>
@@ -162,11 +160,10 @@
                             <div class="pr-icons">
                                 <ul>
                                     
-                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="{{ $produit->id }}">
-                                        <i class="fa-solid fa-heart {{ in_array($produit->id, session()->get('favorites', [])) ? 'active' : '' }}" 
-                                           @if(in_array($produit->id, session()->get('favorites', []))) style="color: #e74c3c;" @endif></i>
+                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="">
+                                        <i class="fa-solid fa-heart"></i>
                                     </a></li>
-                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="{{ $produit->id }}">
+                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="">
                                         <i class="fa-solid fa-eye"></i>
                                     </a></li>
                                 </ul>
@@ -189,11 +186,10 @@
                             <div class="pr-icons">
                                 <ul>
                                     
-                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="{{ $produit->id }}">
-                                        <i class="fa-solid fa-heart {{ in_array($produit->id, session()->get('favorites', [])) ? 'active' : '' }}" 
-                                           @if(in_array($produit->id, session()->get('favorites', []))) style="color: #e74c3c;" @endif></i>
+                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="">
+                                        <i class="fa-solid fa-heart"></i>
                                     </a></li>
-                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="{{ $produit->id }}">
+                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="">
                                         <i class="fa-solid fa-eye"></i>
                                     </a></li>
                                 </ul>
@@ -273,11 +269,10 @@
                             <div class="pr-icons">
                                 <ul>
                                     
-                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="{{ $produit->id }}">
-                                        <i class="fa-solid fa-heart {{ in_array($produit->id, session()->get('favorites', [])) ? 'active' : '' }}" 
-                                           @if(in_array($produit->id, session()->get('favorites', []))) style="color: #e74c3c;" @endif></i>
+                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="">
+                                        <i class="fa-solid fa-heart"></i>
                                     </a></li>
-                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="{{ $produit->id }}">
+                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="">
                                         <i class="fa-solid fa-eye"></i>
                                     </a></li>
                                 </ul>
@@ -300,11 +295,10 @@
                             <div class="pr-icons">
                                 <ul>
                                     
-                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="{{ $produit->id }}">
-                                        <i class="fa-solid fa-heart {{ in_array($produit->id, session()->get('favorites', [])) ? 'active' : '' }}" 
-                                           @if(in_array($produit->id, session()->get('favorites', []))) style="color: #e74c3c;" @endif></i>
+                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="">
+                                        <i class="fa-solid fa-heart"></i>
                                     </a></li>
-                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="{{ $produit->id }}">
+                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="">
                                         <i class="fa-solid fa-eye"></i>
                                     </a></li>
                                 </ul>
@@ -327,11 +321,10 @@
                             <div class="pr-icons">
                                 <ul>
                                     
-                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="{{ $produit->id }}">
-                                        <i class="fa-solid fa-heart {{ in_array($produit->id, session()->get('favorites', [])) ? 'active' : '' }}" 
-                                           @if(in_array($produit->id, session()->get('favorites', []))) style="color: #e74c3c;" @endif></i>
+                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="">
+                                        <i class="fa-solid fa-heart"></i>
                                     </a></li>
-                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="{{ $produit->id }}">
+                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="">
                                         <i class="fa-solid fa-eye"></i>
                                     </a></li>
                                 </ul>
@@ -354,11 +347,10 @@
                             <div class="pr-icons">
                                 <ul>
                                     
-                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="{{ $produit->id }}">
-                                        <i class="fa-solid fa-heart {{ in_array($produit->id, session()->get('favorites', [])) ? 'active' : '' }}" 
-                                           @if(in_array($produit->id, session()->get('favorites', []))) style="color: #e74c3c;" @endif></i>
+                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="">
+                                        <i class="fa-solid fa-heart"></i>
                                     </a></li>
-                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="{{ $produit->id }}">
+                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="">
                                         <i class="fa-solid fa-eye"></i>
                                     </a></li>
                                 </ul>
@@ -381,11 +373,10 @@
                             <div class="pr-icons">
                                 <ul>
                                     
-                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="{{ $produit->id }}">
-                                        <i class="fa-solid fa-heart {{ in_array($produit->id, session()->get('favorites', [])) ? 'active' : '' }}" 
-                                           @if(in_array($produit->id, session()->get('favorites', []))) style="color: #e74c3c;" @endif></i>
+                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="">
+                                        <i class="fa-solid fa-heart"></i>
                                     </a></li>
-                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="{{ $produit->id }}">
+                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="">
                                         <i class="fa-solid fa-eye"></i>
                                     </a></li>
                                 </ul>
@@ -408,11 +399,10 @@
                             <div class="pr-icons">
                                 <ul>
                                     
-                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="{{ $produit->id }}">
-                                        <i class="fa-solid fa-heart {{ in_array($produit->id, session()->get('favorites', [])) ? 'active' : '' }}" 
-                                           @if(in_array($produit->id, session()->get('favorites', []))) style="color: #e74c3c;" @endif></i>
+                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="">
+                                        <i class="fa-solid fa-heart"></i>
                                     </a></li>
-                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="{{ $produit->id }}">
+                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="">
                                         <i class="fa-solid fa-eye"></i>
                                     </a></li>
                                 </ul>
@@ -435,11 +425,10 @@
                             <div class="pr-icons">
                                 <ul>
                                     
-                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="{{ $produit->id }}">
-                                        <i class="fa-solid fa-heart {{ in_array($produit->id, session()->get('favorites', [])) ? 'active' : '' }}" 
-                                           @if(in_array($produit->id, session()->get('favorites', []))) style="color: #e74c3c;" @endif></i>
+                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="">
+                                        <i class="fa-solid fa-heart"></i>
                                     </a></li>
-                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="{{ $produit->id }}">
+                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="">
                                         <i class="fa-solid fa-eye"></i>
                                     </a></li>
                                 </ul>
@@ -462,11 +451,10 @@
                             <div class="pr-icons">
                                 <ul>
                                     
-                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="{{ $produit->id }}">
-                                        <i class="fa-solid fa-heart {{ in_array($produit->id, session()->get('favorites', [])) ? 'active' : '' }}" 
-                                           @if(in_array($produit->id, session()->get('favorites', []))) style="color: #e74c3c;" @endif></i>
+                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="">
+                                        <i class="fa-solid fa-heart"></i>
                                     </a></li>
-                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="{{ $produit->id }}">
+                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="">
                                         <i class="fa-solid fa-eye"></i>
                                     </a></li>
                                 </ul>
@@ -593,7 +581,7 @@
             </a>
         </div>
         <div class="producer-link">
-            <a href="{{ route('boutique') }}" class="text-success fw-bold">
+            <a href="{{ route('boutique') }}#producteurs-section" class="text-success fw-bold">
                 <i class="fa-solid fa-users"></i> Voir les producteurs
             </a>
         </div>

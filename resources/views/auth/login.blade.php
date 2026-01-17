@@ -238,6 +238,7 @@
         
         <div class="auth-footer">
             <p>Vous n'avez pas de compte? <a href="{{ route('register') }}" class="auth-link">S'inscrire</a></p>
+            <p><a href="{{ route('password.request') }}" class="auth-link" style="color: red;">Mot de passe oublié?</a></p>
         </div>
     </div>
     

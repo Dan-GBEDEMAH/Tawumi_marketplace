@@ -316,6 +316,18 @@
                 @enderror
             </div>
             
+            <div class="form-group">
+                <label for="sexe" class="form-label">Genre</label>
+                <select id="sexe" name="sexe" class="form-select" required>
+                    <option value="">Sélectionnez votre genre</option>
+                    <option value="H" {{ old('sexe') == 'H' ? 'selected' : '' }}>Homme</option>
+                    <option value="F" {{ old('sexe') == 'F' ? 'selected' : '' }}>Femme</option>
+                </select>
+                @error('sexe')
+                    <div class="error">{{ $message }}</div>
+                @enderror
+            </div>
+            
             <button type="submit" class="btn-primary">S'inscrire</button>
         </form>
         

@@ -39,7 +39,7 @@
 
                     <ul>
                         <li><a href=""><i class="fa-solid fa-angle-right"></i>Expéditions</a></li>
-                        <li><a href=""><i class="fa-solid fa-angle-right"></i>Confidentialité</a></li>
+                        <li><a href="{{ route('privacy.policy') }}"><i class="fa-solid fa-angle-right"></i>Politique de Confidentialité</a></li>
                         <li><a href=""><i class="fa-solid fa-angle-right"></i>Commande</a></li>
                         <li><a href=""><i class="fa-solid fa-angle-right"></i>Retour</a></li>
                         <li><a href=""><i class="fa-solid fa-angle-right"></i>Politiques</a></li>

@@ -68,11 +68,15 @@ $(document).ready(function() {
     // =========================================
     
     function updateTimers() {
+        console.log('updateTimers function called');
+        
+        // Handle offer cards (existing functionality)
         $('.offer-card').each(function() {
             const timerBox = $(this).find('.timer-flex');
             
             // Si cette carte a un minuteur
             if(timerBox.length > 0) {
+                console.log('Found offer card timer');
                 // Récupérer les valeurs actuelles
                 let daysSpan = timerBox.find('.timer-box').eq(0).find('.timer-value');
                 let hoursSpan = timerBox.find('.timer-box').eq(1).find('.timer-value');
@@ -107,10 +111,82 @@ $(document).ready(function() {
                 secsSpan.text(s < 10 ? '0' + s : s);
             }
         });
+
+        // Handle product timers on index page - FIXED VERSION WITH SLICK CLONE HANDLING
+        $('.product-timer:not(.slick-cloned)').each(function(index) {
+            const timerContainer = $(this);
+            const timerFlex = timerContainer.find('.timer-flex ul');
+            
+            // Skip if this is a slick cloned element
+            if(timerContainer.hasClass('slick-cloned')) {
+                console.log('Skipping cloned timer #' + (index + 1));
+                return;
+            }
+            
+            if(timerFlex.length > 0) {
+                console.log('Processing timer #' + (index + 1));
+                
+                try {
+                    // Get all li elements
+                    const timerItems = timerFlex.find('li');
+                    
+                    if(timerItems.length >= 4) {
+                        const daysLi = timerItems.eq(0);
+                        const hoursLi = timerItems.eq(1);
+                        const minsLi = timerItems.eq(2);
+                        const secsLi = timerItems.eq(3);
+                        
+                        // Extract current values more reliably
+                        const daysText = daysLi.clone().children().remove().end().text().trim();
+                        const hoursText = hoursLi.clone().children().remove().end().text().trim();
+                        const minsText = minsLi.clone().children().remove().end().text().trim();
+                        const secsText = secsLi.clone().children().remove().end().text().trim();
+                        
+                        console.log('Raw timer values:', daysText, hoursText, minsText, secsText);
+                        
+                        // Parse integers
+                        let d = parseInt(daysText) || 0;
+                        let h = parseInt(hoursText) || 0;
+                        let m = parseInt(minsText) || 0;
+                        let s = parseInt(secsText) || 0;
+                        
+                        console.log('Parsed timer values:', d, h, m, s);
+                        
+                        // Countdown logic
+                        s--;
+                        if(s < 0) {
+                            s = 59;
+                            m--;
+                            if(m < 0) {
+                                m = 59;
+                                h--;
+                                if(h < 0) {
+                                    h = 23;
+                                    d--;
+                                    if(d < 0) d = 0;
+                                }
+                            }
+                        }
+                        
+                        // Update display with proper formatting
+                        daysLi.html(d.toString().padStart(2, '0') + ' <span>JOURS</span>');
+                        hoursLi.html(h.toString().padStart(2, '0') + ' <span>HRS</span>');
+                        minsLi.html(m.toString().padStart(2, '0') + ' <span>MIN</span>');
+                        secsLi.html(s.toString().padStart(2, '0') + ' <span>SEC</span>');
+                        
+                        console.log('Timer updated successfully');
+                    }
+                } catch(error) {
+                    console.error('Error processing timer #' + (index + 1) + ':', error);
+                }
+            }
+        });
     }
 
     // Lancer le minuteur toutes les secondes
-    setInterval(updateTimers, 1000);
+    console.log('Setting up timer interval');
+    const timerInterval = setInterval(updateTimers, 1000);
+    console.log('Timer interval ID:', timerInterval);
 
 
     // =========================================

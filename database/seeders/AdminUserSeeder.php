@@ -21,7 +21,7 @@ class AdminUserSeeder extends Seeder
                 'email' => 'tawumi@gmail.com',
                 'mot_passe' => Hash::make('secret'), 
                 'addresse' => 'Adresse par défaut',
-                'telephone' => '0000000000',
+                'telephone' => '',
                 'role' => 'admin',
             ]);
         }
