@@ -59,14 +59,15 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="stock_disponible">Stock disponible</label>
-                                            <input type="number" class="form-control form-control-user" id="stock_disponible" name="stock_disponible" value="{{ old('stock_disponible', 0) }}" required>
+                                            <input type="number" class="form-control form-control-user" id="stock_disponible" name="stock_disponible" value="{{ old('stock_disponible', 1) }}" min="1" required>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="id_categorie_fk">Catégorie</label>
                                         <select class="form-control" id="id_categorie_fk" name="id_categorie_fk" required>
+                                            <option value="">Sélectionnez une catégorie</option>
                                             @foreach($categories as $categorie)
-                                                <option value="{{ $categorie->id }}">{{ $categorie->nom }}</option>
+                                                <option value="{{ $categorie->id }}" {{ old('id_categorie_fk') == $categorie->id ? 'selected' : '' }}>{{ $categorie->nom }}</option>
                                             @endforeach
                                         </select>
                                     </div>

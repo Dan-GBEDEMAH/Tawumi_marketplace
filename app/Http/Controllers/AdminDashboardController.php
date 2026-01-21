@@ -34,7 +34,7 @@ class AdminDashboardController extends Controller
         $totalProduits = Produit::count();
         $totalCommandes = Commande::count();
         $totalCommandesEnAttente = Commande::where('statut_en_attente_valide_annule_etc', 'en_attente')->count();
-        $totalCommandesValidees = Commande::whereIn('statut_en_attente_valide_annule_etc', ['validee','livrée'])->count();
+        $totalCommandesValidees = Commande::whereIn('statut_en_attente_valide_annule_etc', ['validee','delivre'])->count();
         $totalCommandesAnnulees = Commande::where('statut_en_attente_valide_annule_etc', 'annulee')->count();
         
         $totalRevenus = Paiement::where('statut_paiement', 'complet')->sum('montant');
@@ -369,11 +369,11 @@ class AdminDashboardController extends Controller
             'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
         ]);
         
-        $user = Auth::user();
-        $user->prenom = $request->prenom;
-        $user->nom = $request->nom;
-        $user->email = $request->email;
-        $user->save();
+        User::where('id', Auth::id())->update([
+            'prenom' => $request->prenom,
+            'nom' => $request->nom,
+            'email' => $request->email,
+        ]);
         
         return redirect()->route('admin.settings')->with('success', 'Profil mis à jour avec succès!');
     }
@@ -395,8 +395,9 @@ class AdminDashboardController extends Controller
             return redirect()->route('admin.settings')->with('error', 'Le mot de passe actuel est incorrect.');
         }
         
-        $user->mot_passe = $request->new_password;
-        $user->save();
+        User::where('id', Auth::id())->update([
+            'mot_passe' => $request->new_password,
+        ]);
         
         return redirect()->route('admin.settings')->with('success', 'Mot de passe mis à jour avec succès!');
     }

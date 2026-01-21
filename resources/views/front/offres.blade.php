@@ -41,7 +41,7 @@
                             </ul>
                         </div>
                         <div class="offer-img">
-                            <img src="{{ asset($produit->image) }}" alt="{{ $produit->nom }}">
+                            <img src="{{ $produit->image }}" alt="{{ $produit->nom }}">
                             <!-- Badges d'offres spéciales -->
                             <div class="product-badges">
                                 @if($produit->est_offre_weekend)
@@ -299,7 +299,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     modal.querySelector('.product-detail-body').innerHTML = `
                         <div class="row">
                             <div class="col-md-6">
-                                <img src="${produit.image.startsWith('http') ? produit.image : '/' + produit.image}" alt="${produit.nom}" class="img-fluid">
+                                <img src="${produit.image}" alt="${produit.nom}" class="img-fluid">
                             </div>
                             
                             <div class="col-md-6">

@@ -36,7 +36,7 @@
                                         </div>
                                         <div class="w-full sm:w-1/2 px-2">
                                             <label for="stock_disponible" class="block text-gray-700 text-sm font-bold mb-2">Stock disponible</label>
-                                            <input type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="stock_disponible" name="stock_disponible" value="{{ old('stock_disponible', $produit->stock_disponible) }}" required>
+                                            <input type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="stock_disponible" name="stock_disponible" value="{{ old('stock_disponible', $produit->stock_disponible) }}" min="1" required>
                                         </div>
                                     </div>
                                     <div class="mb-4">

@@ -43,7 +43,7 @@
                             <div class="order-item d-flex justify-content-between align-items-center mb-2 p-2 border-bottom">
                                 <div class="item-info d-flex align-items-center">
                                     @if($produit->image)
-                                        <img src="{{ asset($produit->image) }}" alt="{{ $produit->nom }}" class="img-fluid me-2" style="max-width: 50px;">
+                                        <img src="{{ $produit->image }}" alt="{{ $produit->nom }}" class="img-fluid me-2" style="max-width: 50px;">
                                     @endif
                                     <div>
                                         <h6 class="mb-0">{{ $produit->nom }}</h6>

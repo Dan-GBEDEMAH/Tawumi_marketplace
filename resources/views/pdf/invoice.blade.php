@@ -70,9 +70,6 @@
     <div class="header">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <img src="{{ asset('assets/images/logo.png') }}" alt="TawumiConfirm Logo" style="height: 80px;">
-            </div>
-            <div>
                 <h1 style="margin: 0; color: #28a745;"><i class="fas fa-file-invoice"></i> FACTURE</h1>
             </div>
         </div>
@@ -174,7 +171,6 @@
     
     <div class="footer">
         <p>Merci pour votre confiance. Nous espérons vous revoir bientôt !</p>
-        <p>Cette facture est valide sans signature.</p>
     </div>
 </body>
 </html>

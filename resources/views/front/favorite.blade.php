@@ -20,7 +20,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                 <div class="product-card">
                     <div class="product-img">
-                        <img src="{{ asset($produit->image) }}" alt="{{ $produit->nom }}" class="img-fluid">
+                        <img src="{{ $produit->image }}" alt="{{ $produit->nom }}" class="img-fluid">
                         <div class="product-overlay">
                             <button class="btn btn-light add-to-fav" data-product-id="{{ $produit->id }}">
                                 <i class="fas fa-heart active"></i>
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     modal.querySelector('.product-detail-body').innerHTML = `
                         <div class="row">
                             <div class="col-md-6">
-                                <img src="${produit.image.startsWith('http') ? produit.image : '/' + produit.image}" alt="${produit.nom}" class="img-fluid">
+                                <img src="${produit.image}" alt="${produit.nom}" class="img-fluid">
                             </div>
                             
                             <div class="col-md-6">

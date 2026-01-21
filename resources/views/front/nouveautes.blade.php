@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     modal.querySelector('.product-detail-body').innerHTML = `
                         <div class="row">
                             <div class="col-md-6">
-                                <img src="${produit.image.startsWith('http') ? produit.image : '/' + produit.image}" alt="${produit.nom}" class="img-fluid">
+                                <img src="${produit.image}" alt="${produit.nom}" class="img-fluid">
                             </div>
                             
                             <div class="col-md-6">

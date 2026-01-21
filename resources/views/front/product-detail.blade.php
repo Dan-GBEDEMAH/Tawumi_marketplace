@@ -8,7 +8,7 @@
         <div class="product-detail-body">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="{{ asset($produit->image) }}" alt="{{ $produit->nom }}" class="img-fluid">
+                    <img src="{{ $produit->image }}" alt="{{ $produit->nom }}" class="img-fluid">
                 </div>
                 
                 <div class="col-md-6">

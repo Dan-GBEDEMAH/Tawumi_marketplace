@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Connexion - Tawumi Marketplace</title>
+    <title>Connexion - TawumiConfirm</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -208,7 +208,7 @@
         <div class="leaf-decoration leaf-2"><i class="fas fa-carrot"></i></div>
         
         <div class="auth-logo">
-            <h1>Tawumi</h1>
+            <h1>TawumiConfirm</h1>
             <p>Marché des produits locaux</p>
         </div>
         

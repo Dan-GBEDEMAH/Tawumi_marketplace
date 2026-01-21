@@ -5,28 +5,29 @@ $(document).ready(function() {
     // =========================================
     
     // Slider des catégories (petites icônes rondes)
-    if($('.item-slider').length) {
-        $('.item-slider').slick({
-            dots: false,
-            infinite: true,
-            arrows: false,
-            speed: 300,
-            slidesToShow: 6, // Ajusté pour être joli
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 3000,
-            responsive: [
-                { breakpoint: 1024, settings: { slidesToShow: 4, slidesToScroll: 1 } },
-                { breakpoint: 600, settings: { slidesToShow: 3, slidesToScroll: 1 } },
-                { breakpoint: 480, settings: { slidesToShow: 2, slidesToScroll: 1 } }
-            ]
-        });
-    }
+    // Commenté pour garder l'affichage statique en cercles
+    // if($('.item-slider').length) {
+    //     $('.item-slider').slick({
+    //         dots: false,
+    //         infinite: true,
+    //         arrows: false,
+    //         speed: 300,
+    //         slidesToShow: 6, // Ajusté pour être joli
+    //         slidesToScroll: 1,
+    //         autoplay: true,
+    //         autoplaySpeed: 3000,
+    //         responsive: [
+    //             { breakpoint: 1024, settings: { slidesToShow: 4, slidesToScroll: 1 } },
+    //             { breakpoint: 600, settings: { slidesToShow: 3, slidesToScroll: 1 } },
+    //             { breakpoint: 480, settings: { slidesToShow: 2, slidesToScroll: 1 } }
+    //         ]
+    //     });
+    // }
 
-    // Slider des produits (Index et Boutique)
-    if($('.product-slider').length) {
+    // Slider des produits mis en avant (Index) - seulement s'il y a plus de 4 produits
+    if($('.product-slider').length && $('.product-slider .col-md-3').length > 4) {
         $('.product-slider').slick({
-            dots: true,
+            dots: false,
             infinite: true,
             arrows: false,
             speed: 500,
@@ -43,7 +44,7 @@ $(document).ready(function() {
     // Deuxième slider de produits (Nouveautés)
     if($('.product-slider-2').length) {
         $('.product-slider-2').slick({
-            dots: true,
+            dots: false,
             infinite: true,
             arrows: false,
             speed: 500,
@@ -226,8 +227,8 @@ $(document).ready(function() {
     // 5. FORMULAIRE DE CONTACT
     // =========================================
     
-    $('form').not('.head-search form').not('.email-form').on('submit', function(e) {
-        // On exclut la barre de recherche et la newsletter pour ne cibler que le contact
+    $('form.contact-form').on('submit', function(e) {
+        // Ne cible que le formulaire de contact spécifique
         e.preventDefault();
         
         const name = $('#name').val();

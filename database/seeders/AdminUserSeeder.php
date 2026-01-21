@@ -19,7 +19,7 @@ class AdminUserSeeder extends Seeder
                 'prenom' => 'Admin',
                 'nom' => 'Tawumi',
                 'email' => 'tawumi@gmail.com',
-                'mot_passe' => Hash::make('secret'), 
+                'mot_passe' => 'secret', 
                 'addresse' => 'Adresse par défaut',
                 'telephone' => '',
                 'role' => 'admin',

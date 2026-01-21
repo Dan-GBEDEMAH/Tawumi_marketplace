@@ -2,6 +2,14 @@
 
 @section('contentPage')
 
+<style>
+/* Astérisque rouge pour les champs obligatoires */
+.required-star {
+    color: #dc3545;
+    font-weight: bold;
+}
+</style>
+
 <!-- Checkout Section -->
 <section class="checkout-sec py-5">
     <div class="container">
@@ -32,37 +40,37 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="firstName">Prénom *</label>
+                                    <label for="firstName">Prénom <span class="required-star">*</span></label>
                                     <input type="text" class="form-control" id="firstName" name="first_name" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="lastName">Nom *</label>
+                                    <label for="lastName">Nom <span class="required-star">*</span></label>
                                     <input type="text" class="form-control" id="lastName" name="last_name" required>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="email">Email *</label>
+                            <label for="email">Email <span class="required-star">*</span></label>
                             <input type="email" class="form-control" id="email" name="email" required>
                         </div>
                         
                         <div class="form-group">
-                            <label for="phone">Téléphone *</label>
+                            <label for="phone">Téléphone <span class="required-star">*</span></label>
                             <input type="tel" class="form-control" id="phone" name="phone" required>
                         </div>
                         
                         <div class="form-group">
-                            <label for="address">Adresse *</label>
+                            <label for="address">Adresse <span class="required-star">*</span></label>
                             <input type="text" class="form-control" id="address" name="address" placeholder="Numéro de rue, nom de la rue" required>
                         </div>
                         
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="city">Ville *</label>
+                                    <label for="city">Ville <span class="required-star">*</span></label>
                                     <input type="text" class="form-control" id="city" name="city" required>
                                 </div>
                             </div>
@@ -231,7 +239,7 @@
                             @if($item->produit)
                             <div class="order-item">
                                 <div class="item-info">
-                                    <img src="{{ asset($item->produit->image) }}" alt="{{ $item->produit->nom }}" class="img-fluid" style="max-width: 60px; max-height: 60px; object-fit: cover;">
+                                    <img src="{{ $item->produit->image }}" alt="{{ $item->produit->nom }}" class="img-fluid" style="max-width: 60px; max-height: 60px; object-fit: cover;">
                                     <div>
                                         <h6>{{ $item->produit->nom }}</h6>
                                         <p>{{ $item->quantite ?? 1 }} x {{ $item->produit->prix }} Fcfa</p>

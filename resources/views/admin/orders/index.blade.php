@@ -19,6 +19,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Client</th>
+                            <th>Type</th>
                             <th>Date</th>
                             <th>Statut</th>
                             <th>Montant</th>
@@ -29,7 +30,20 @@
                         @foreach($commandes as $commande)
                         <tr>
                             <td>{{ $commande->id }}</td>
-                            <td>{{ $commande->user->prenom ?? 'N/A' }} {{ $commande->user->nom ?? '' }}</td>
+                            <td>
+                                @if($commande->id_commercant_fk)
+                                    {{ $commande->user->prenom ?? 'N/A' }} {{ $commande->user->nom ?? '' }}
+                                @else
+                                    {{ $commande->nom_client }}
+                                @endif
+                            </td>
+                            <td>
+                                @if($commande->id_commercant_fk)
+                                    <span class="badge bg-success">Inscrit</span>
+                                @else
+                                    <span class="badge bg-warning">Anonyme</span>
+                                @endif
+                            </td>
                             <td>{{ $commande->date_commande->format('d/m/Y H:i') }}</td>
                             <td>
                                 <span class="badge bg-{{ 

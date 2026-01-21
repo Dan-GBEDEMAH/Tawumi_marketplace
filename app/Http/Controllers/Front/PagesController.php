@@ -9,7 +9,16 @@ class PagesController extends Controller
 {
     public function index()
     {
-        $produits_en_avant = \App\Models\Produit::with('categorie', 'producteur')->where('est_en_avant', true)->limit(8)->get();
+        $produits_en_avant = \App\Models\Produit::with('categorie', 'producteur')
+            ->where('est_en_avant', true)
+            ->where('stock_disponible', '>', 0)
+            ->whereHas('categorie')
+            ->whereHas('producteur')
+            ->limit(8)
+            ->get();
+        
+        \Log::info('Produits en avant count: ' . $produits_en_avant->count());
+        
         return view('front.index', compact('produits_en_avant'));
     }
 

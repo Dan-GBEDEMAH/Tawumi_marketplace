@@ -45,12 +45,9 @@
     
      <x-footer/>
 
-    @if(request()->routeIs('home'))
     {{-- Cookie Consent Banner --}}
     <x-cookie-consent />
-    @endif
 
-    <script src="{{ asset('assets/script.js') }}"></script>
     <!-- bootsrap js  -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
@@ -60,6 +57,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+    <script src="{{ asset('assets/script.js') }}"></script>
 
     
     

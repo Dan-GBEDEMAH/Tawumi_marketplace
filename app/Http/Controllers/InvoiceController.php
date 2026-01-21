@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Commande;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
@@ -15,8 +16,8 @@ class InvoiceController extends Controller
         
         // Vérifier que l'utilisateur a le droit de voir cette facture
         // Soit c'est l'utilisateur connecté qui a passé la commande, soit l'utilisateur a accès via l'ID de commande
-        if (auth()->check()) {
-            $user = auth()->user();
+        if (Auth::check()) {
+            $user = Auth::user();
             // Utilisateur connecté : vérifier s'il est propriétaire, admin ou producteur
             if ($user->id !== $order->id_commercant_fk && $user->role !== 'admin' && $user->role !== 'producteur') {
                 abort(403, 'Vous n\'êtes pas autorisé à voir cette facture.');
@@ -34,8 +35,8 @@ class InvoiceController extends Controller
         $order = Commande::with(['produits', 'paiements'])->findOrFail($orderId);
         
         // Vérifier que l'utilisateur a le droit de télécharger cette facture
-        if (auth()->check()) {
-            $user = auth()->user();
+        if (Auth::check()) {
+            $user = Auth::user();
             // Utilisateur connecté : vérifier s'il est propriétaire, admin ou producteur
             if ($user->id !== $order->id_commercant_fk && $user->role !== 'admin' && $user->role !== 'producteur') {
                 abort(403, 'Vous n\'êtes pas autorisé à télécharger cette facture.');

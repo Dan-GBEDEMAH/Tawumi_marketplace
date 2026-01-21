@@ -48,7 +48,7 @@
                                 <tr>
                                     <td>
                                         <div class="cart-product">
-                                            <img src="{{ asset($item->produit->image) }}" alt="{{ $item->produit->nom }}" class="img-fluid" style="max-width: 80px; max-height: 80px; object-fit: cover;">
+                                            <img src="{{ $item->produit->image }}" alt="{{ $item->produit->nom }}" class="img-fluid" style="max-width: 80px; max-height: 80px; object-fit: cover;">
                                             <div class="product-info">
                                                 <h5>{{ $item->produit->nom }}</h5>
                                                 <p>{{ $item->produit->description }}</p>

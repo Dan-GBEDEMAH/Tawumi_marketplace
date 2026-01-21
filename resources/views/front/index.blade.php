@@ -53,48 +53,66 @@
 <!-- Section produits mis en avant -->
 <section class="product-sec pb-5">
     <div class="container">
-        <h2 class="title text-center">Produits mis en avant</h2>
-        <div class="product-slider mt-5">
-            <div class="row">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <h2 class="title text-center mb-5">Produits mis en avant</h2>
                 @if(isset($produits_en_avant) && $produits_en_avant->count() > 0)
-                    @foreach($produits_en_avant as $produit)
-                    <div class="col-md-3 mb-4">
-                        <div class="product-box">
-                            <div class="pr-icons">
-                                <ul>
+                <div class="product-slider mt-4">
+                    <div class="row g-4">
+                        @foreach($produits_en_avant as $produit)
+                        <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
+                            <div class="product-box h-100 shadow-sm border rounded-3 overflow-hidden">
+                                <!-- Image avec icônes -->
+                                <div class="position-relative">
+                                    <img src="{{ $produit->image }}" alt="{{ $produit->nom }}" class="img-fluid w-100" style="height: 250px; object-fit: cover;">
+                                    <div class="pr-icons position-absolute top-0 end-0 p-2">
+                                        <ul class="list-unstyled d-flex flex-column gap-2">
+                                            <li>
+                                                <a href="javascript:void(0)" class="add-to-fav btn btn-light btn-sm rounded-circle p-2" data-product-id="{{ $produit->id }}">
+                                                    <i class="fa-solid fa-heart"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0)" class="view-product btn btn-light btn-sm rounded-circle p-2" data-product-id="{{ $produit->id }}">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <!-- Contenu texte -->
+                                <div class="pr-text p-3 bg-white">
+                                    <h5 class="mb-2 text-dark">{{ $produit->nom }}</h5>
                                     
-                                    <li><a href="javascript:void(0)" class="add-to-fav" data-product-id="">
-                                        <i class="fa-solid fa-heart"></i>
-                                    </a></li>
-                                    <li><a href="javascript:void(0)" class="view-product" data-product-id="">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a></li>
-                                </ul>
-                            </div>
-                            <div class="pr-img">
-                                <img src="{{ asset($produit->image) }}" alt="{{ $produit->nom }}">
-                            </div>
-                            <div class="pr-text">
-                                <h6>En stock</h6>
-                                <h5>{{ $produit->nom }}</h5>
-
-                                <span class="price">{{ $produit->prix }} Fcfa</span>
-                                <div class="cart-btn">
-                                    <form method="POST" action="{{ route('cart.add') }}" class="d-inline">
-                                        @csrf
-                                        <input type="hidden" name="produit_id" value="{{ $produit->id }}">
-                                        <button type="submit" class="btn btn-link p-0 text-decoration-none border-0 bg-transparent">
-                                            Ajouter au panier <i class="fa-solid fa-cart-shopping"></i>
-                                        </button>
-                                    </form>
+                                    <!-- Prix bien positionné -->
+                                    <div class="mb-3">
+                                        <span class="price fw-bold fs-4 text-success">{{ $produit->prix }} Fcfa</span>
+                                    </div>
+                                    
+                                    <!-- Bouton d'action -->
+                                    <div class="cart-btn w-100">
+                                        <form method="POST" action="{{ route('cart.add') }}" class="d-grid">
+                                            @csrf
+                                            <input type="hidden" name="produit_id" value="{{ $produit->id }}">
+                                            <button type="submit" class="btn btn-warning w-100 py-2 fw-bold border-0 rounded-2">
+                                                <i class="fa-solid fa-cart-shopping me-2"></i>
+                                                Ajouter au panier
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        @endforeach
                     </div>
-                    @endforeach
+                </div>
                 @else
-                    <div class="col-12">
-                        <p class="text-center">Aucun produit mis en avant actuellement.</p>
+                    <div class="mt-5 text-center">
+                        <div class="py-5">
+                            <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                            <p class="text-muted fs-5">Aucun produit mis en avant actuellement.</p>
+                        </div>
                     </div>
                 @endif
             </div>
@@ -591,6 +609,66 @@
     </div>
 
 <script>
+// Handle favorite toggle for product list
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle favorite toggle
+    const favoriteButtons = document.querySelectorAll('.add-to-fav');
+    
+    favoriteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const productId = this.getAttribute('data-product-id');
+            const icon = this.querySelector('i');
+            
+            fetch('/favorite/toggle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    product_id: productId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update icon based on action
+                    if (data.action === 'added') {
+                        icon.classList.add('active');
+                        icon.style.color = '#e74c3c';
+                        this.setAttribute('title', 'Retirer des favoris');
+                    } else {
+                        icon.classList.remove('active');
+                        icon.style.color = '';
+                        this.setAttribute('title', 'Ajouter aux favoris');
+                    }
+                    
+                    // Update favorite count in navbar
+                    const favoriteBadge = document.getElementById('favorite-count');
+                    if (favoriteBadge) {
+                        favoriteBadge.textContent = data.count;
+                        
+                        // Show/hide badge based on count
+                        if (data.count > 0) {
+                            favoriteBadge.classList.remove('hidden');
+                        } else {
+                            favoriteBadge.classList.add('hidden');
+                        }
+                    }
+                } else {
+                    alert(data.message || 'Une erreur est survenue');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Une erreur est survenue lors de la mise à jour des favoris');
+            });
+        });
+    });
+});
+
 // Product detail modal functionality
 document.addEventListener('DOMContentLoaded', function() {
     const viewProductButtons = document.querySelectorAll('.view-product');
@@ -644,7 +722,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     modal.querySelector('.product-detail-body').innerHTML = `
                         <div class="row">
                             <div class="col-md-6">
-                                <img src="${produit.image.startsWith('http') ? produit.image : '/' + produit.image}" alt="${produit.nom}" class="img-fluid">
+                                <img src="${produit.image}" alt="${produit.nom}" class="img-fluid">
                             </div>
                             
                             <div class="col-md-6">

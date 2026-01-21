@@ -73,13 +73,34 @@
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Informations client</h6>
+                    @if(!$commande->id_commercant_fk)
+                        <span class="badge bg-warning">Commande anonyme</span>
+                    @endif
                 </div>
                 <div class="card-body">
-                    <p><strong>Nom:</strong> {{ $commande->user->prenom ?? 'N/A' }} {{ $commande->user->nom ?? '' }}</p>
-                    <p><strong>Email:</strong> {{ $commande->user->email ?? 'N/A' }}</p>
-                    <p><strong>Téléphone:</strong> {{ $commande->user->telephone ?? 'N/A' }}</p>
-                    <p><strong>Adresse:</strong> {{ $commande->user->addresse ?? 'N/A' }}</p>
+                    @if($commande->id_commercant_fk)
+                        <p><strong>Nom:</strong> {{ $commande->user->prenom ?? 'N/A' }} {{ $commande->user->nom ?? '' }}</p>
+                        <p><strong>Email:</strong> {{ $commande->user->email ?? 'N/A' }}</p>
+                        <p><strong>Téléphone:</strong> {{ $commande->user->telephone ?? 'N/A' }}</p>
+                        <p><strong>Adresse:</strong> {{ $commande->user->addresse ?? 'N/A' }}</p>
+                    @else
+                        <p><strong>Nom complet:</strong> {{ $commande->nom_client }}</p>
+                        <p><strong>Email:</strong> {{ $commande->email_client }}</p>
+                        <p><strong>Téléphone:</strong> {{ $commande->telephone_client }}</p>
+                        <p><strong>Adresse de livraison:</strong> {{ $commande->adresse_livraison }}</p>
+                        <p><strong>Ville:</strong> {{ $commande->ville_livraison }}</p>
+                        @if($commande->code_postal_livraison)
+                            <p><strong>Code postal:</strong> {{ $commande->code_postal_livraison }}</p>
+                        @endif
+                    @endif
                     <p><strong>Date de commande:</strong> {{ $commande->date_commande->format('d/m/Y H:i') }}</p>
+                    <p><strong>Type de commande:</strong> 
+                        @if($commande->id_commercant_fk)
+                            <span class="badge bg-success">Client inscrit</span>
+                        @else
+                            <span class="badge bg-warning">Client anonyme</span>
+                        @endif
+                    </p>
                 </div>
             </div>
             
